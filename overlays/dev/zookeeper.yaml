@@ -1,0 +1,9 @@
+- op: replace
+  path: /spec/image/application
+  value: confluentinc/cp-zookeeper:7.5.1
+- op: replace
+  path: /spec/image/init
+  value: confluentinc/confluent-init-container:2.7.0
+- op: replace
+  path: /spec/replicas
+  value: 1

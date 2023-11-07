@@ -1,0 +1,24 @@
+commonLabels:
+  env: development
+namespace: confluent-dev
+patches:
+- path: zookeeper.yaml
+  target:
+    kind: Zookeeper
+- path: SchemaRegistry.yaml
+  target:
+    kind: SchemaRegistry
+- path: KsqlDB.yaml
+  target:
+    kind: KsqlDB
+- path: Kafka.yaml
+  target:
+    kind: Kafka
+- path: Connect.yaml
+  target:
+    kind: Connect
+- path: ControlCenter.yaml
+  target:
+    kind: ControlCenter
+resources:
+- ../../base

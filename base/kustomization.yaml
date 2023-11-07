@@ -1,0 +1,2 @@
+resources:
+- confluent-platform-mtls-rbac.yaml
