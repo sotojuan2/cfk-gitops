@@ -6,7 +6,7 @@
   value: confluentinc/confluent-init-container:2.7.0
 - op: replace
   path: /spec/replicas
-  value: 1
+  value: 3
 - op: add
   path: /spec/podTemplate
   value:
