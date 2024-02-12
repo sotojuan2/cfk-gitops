@@ -12,15 +12,15 @@
   value:
     probe:
       liveness:
-        initialDelaySeconds: 20
+        initialDelaySeconds: 200
         failureThreshold: 9
-        periodSeconds: 10
+        periodSeconds: 30
         timeoutSeconds: 5
         successThreshold: 1
       readiness:
-        initialDelaySeconds: 10
+        initialDelaySeconds: 200
         failureThreshold: 5
-        periodSeconds: 10
+        periodSeconds: 30
         timeoutSeconds: 5
         successThreshold: 3
     terminationGracePeriodSeconds: 300
