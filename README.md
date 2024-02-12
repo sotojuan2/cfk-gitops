@@ -40,7 +40,7 @@ helm upgrade --install operator confluentinc/confluent-for-kubernetes --namespac
 Check that the Confluent For Kubernetes pod comes up and is running:
 
 ```
-kubectl get pods --namespace confluent
+kubectl get pods --namespace confluent-dev
 ```
 
 ## Deploy OpenLDAP
@@ -51,19 +51,19 @@ includes the set of principal definitions that Confluent Platform needs for RBAC
 Deploy OpenLdap:
 
 ```
-helm upgrade --install -f $TUTORIAL_HOME/../../assets/openldap/ldaps-rbac.yaml test-ldap $TUTORIAL_HOME/../../assets/openldap --namespace confluent
+helm upgrade --install -f $TUTORIAL_HOME/assets/openldap/ldaps-rbac.yaml test-ldap $TUTORIAL_HOME/assets/openldap --namespace confluent-dev
 ```
 
 Validate that OpenLDAP is running:  
 
 ```
-kubectl get pods --namespace confluent
+kubectl get pods --namespace confluent-dev
 ```
 
 Log in to the LDAP pod:
 
 ```
-kubectl --namespace confluent exec -it ldap-0 -- bash
+kubectl --namespace confluent-dev exec -it ldap-0 -- bash
 
 # Run the LDAP search command
 ldapsearch -LLL -x -H ldap://ldap.confluent.svc.cluster.local:389 -b 'dc=test,dc=com' -D "cn=mds,dc=test,dc=com" -w 'Developer!'
