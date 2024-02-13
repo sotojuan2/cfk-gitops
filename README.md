@@ -16,11 +16,13 @@ This is a document in progress!!
 ## Steps
 
 1. Donwload CFK
-2. Create LDAP
-3. Create LDAP users
-4. Create all Sectres
-5. Setup Argo
-6. Create new argo application
+2. kubectl create namespace confluent-dev
+3. Create LDAP
+4. Create LDAP users
+5. Create all Sectres
+6. Setup Argo
+7. Install CFK
+8. Create new argo application
 
 ## Setup Argo
 
@@ -43,7 +45,7 @@ spec:
     repoURL: 'https://github.com/sotojuan2/cfk-gitops'
     targetRevision: HEAD
   sources: []
-  project: cfk
+  project: default
   syncPolicy:
     automated:
       prune: true
@@ -116,7 +118,7 @@ kubectl get pods --namespace confluent-dev
 Log in to the LDAP pod:
 
 ```
-kubectl --namespace-dev confluent-dev exec -it ldap-0 -- bash
+kubectl --namespace confluent-dev exec -it ldap-0 -- bash
 
 # Run the LDAP search command
 ldapsearch -LLL -x -H ldap://ldap.confluent-dev.svc.cluster.local:389 -b 'dc=test,dc=com' -D "cn=mds,dc=test,dc=com" -w 'Developer!'
@@ -171,7 +173,7 @@ Create a Kubernetes secret for the certificate authority:
 ```
 kubectl create secret tls ca-pair-sslcerts \
   --cert=$TUTORIAL_HOME/ca.pem \
-  --key=$TUTORIAL_HOME/ca-key.pem -n confluent
+  --key=$TUTORIAL_HOME/ca-key.pem -n confluent-dev
 ```
 
 ### Provide external component TLS certificates for Kafka
@@ -193,7 +195,7 @@ openssl req -x509  -new -nodes \
 # Create Kafka server certificates
 cfssl gencert -ca=$TUTORIAL_HOME/externalCacerts.pem \
 -ca-key=$TUTORIAL_HOME/externalRootCAkey.pem \
--config=$TUTORIAL_HOME/../../assets/certs/ca-config.json \
+-config=$TUTORIAL_HOME/assets/certs/ca-config.json \
 -profile=server $TUTORIAL_HOME/kafka-server-domain.json | cfssljson -bare $TUTORIAL_HOME/kafka-server
 
 ```
@@ -229,8 +231,8 @@ Create a Kubernetes secret object for MDS:
 
 ```
 kubectl create secret generic mds-token \
-  --from-file=mdsPublicKey.pem=$TUTORIAL_HOME/../../assets/certs/mds-publickey.txt \
-  --from-file=mdsTokenKeyPair.pem=$TUTORIAL_HOME/../../assets/certs/mds-tokenkeypair.txt \
+  --from-file=mdsPublicKey.pem=$TUTORIAL_HOME/assets/certs/mds-publickey.txt \
+  --from-file=mdsTokenKeyPair.pem=$TUTORIAL_HOME/assets/certs/mds-tokenkeypair.txt \
   --namespace confluent-dev
    
 # Kafka RBAC credential
@@ -306,7 +308,7 @@ to use for encrypting traffic.
 # Generate a server certificate from the external root certificate authority
 cfssl gencert -ca=$TUTORIAL_HOME/externalCacerts.pem \
 -ca-key=$TUTORIAL_HOME/externalRootCAkey.pem \
--config=$TUTORIAL_HOME/../../assets/certs/ca-config.json \
+-config=$TUTORIAL_HOME/assets/certs/ca-config.json \
 -profile=server $TUTORIAL_HOME/ingress-server-domain.json | cfssljson -bare $TUTORIAL_HOME/ingress-server
 
 kubectl create secret tls tls-nginx-cert \
