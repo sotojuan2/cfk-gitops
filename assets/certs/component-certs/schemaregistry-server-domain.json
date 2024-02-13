@@ -3,7 +3,7 @@
   "hosts": [
     "sr",
     "schemaregistry.mydomain.example",
-    "schemaregistry.confluent.svc.cluster.local"
+    "schemaregistry.confluent-dev.svc.cluster.local"
   ],
   "key": {
     "algo": "rsa",

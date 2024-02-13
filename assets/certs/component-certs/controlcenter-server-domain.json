@@ -3,7 +3,7 @@
   "hosts": [
     "c3",
     "controlcenter.mydomain.example",
-    "controlcenter.confluent.svc.cluster.local"
+    "controlcenter.confluent-dev.svc.cluster.local"
   ],
   "key": {
     "algo": "rsa",

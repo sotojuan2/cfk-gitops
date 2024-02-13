@@ -1,9 +1,59 @@
 # DRAFT DOCUMENT!!
+
 This is a document in progress!!
-aqui tambien hay cambios
+
+## Open items
+
+* [ ] When we create the application Argo ask for namesapace but it add a sufix "-dev". For this reason at the moemnt all the steps are using "confluent-dev"
+* [X] When running "Run the LDAP search command" I have changed the hostname used of the DNS. ldap.**confluent-dev**.svc.cluster.local:389
+* [ ] All host needs to be updated to the right domain **confluent-dev**. I have done this changes in the base file. This should be managed by kustomize
+* [ ] At the moment you need to install CFK manually. It can be done in the same application with two source. [Multiple Sources for an Application](https://argo-cd.readthedocs.io/en/stable/user-guide/multiple_sources/)
+* [ ] Pre-work create ldap manually
+* [ ] Error default replication factor is 3. We need to changes to 1...
+* [ ] Secrests must be created manually Tls and users!
+* [ ] kafka-server-domain.json this document is not using **confluent-dev**
+
+## Steps
+
+1. Donwload CFK
+2. Create LDAP
+3. Create LDAP users
+4. Create all Sectres
+5. Setup Argo
+6. Create new argo application
+
+## Setup Argo
+
+I am using the following [link](https://apexlemons.com/devops/argocd-on-minikube-on-macos/)
+
+## Create New argo application
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cfk
+spec:
+  destination:
+    name: ''
+    namespace: confluent
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: overlays/dev
+    repoURL: 'https://github.com/sotojuan2/cfk-gitops'
+    targetRevision: HEAD
+  sources: []
+  project: cfk
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+```
+
 # Security setup
 
 In this workflow scenario, you'll set up a Confluent Platform cluster with the following security:
+
 - Full TLS network encryption using both user provided certificates for external domains and auto-generated certs for internal domains
 - mTLS authentication
 - Confluent RBAC authorization
@@ -25,7 +75,7 @@ Set the tutorial directory for this tutorial under the directory you downloaded 
 ```
 export TUTORIAL_HOME=<Tutorial directory>/security/internal_external-tls_mtls_confluent-rbac
 ```
-  
+
 ## Deploy Confluent for Kubernetes
 
 Set up the Helm Chart:
@@ -37,9 +87,9 @@ helm repo add confluentinc https://packages.confluent.io/helm
 Install Confluent For Kubernetes using Helm:
 
 ```
-helm upgrade --install operator confluentinc/confluent-for-kubernetes --namespace confluent
+helm upgrade --install operator confluentinc/confluent-for-kubernetes --namespace confluent-dev
 ```
-  
+
 Check that the Confluent For Kubernetes pod comes up and is running:
 
 ```
@@ -57,7 +107,7 @@ Deploy OpenLdap:
 helm upgrade --install -f $TUTORIAL_HOME/assets/openldap/ldaps-rbac.yaml test-ldap $TUTORIAL_HOME/assets/openldap --namespace confluent-dev
 ```
 
-Validate that OpenLDAP is running:  
+Validate that OpenLDAP is running:
 
 ```
 kubectl get pods --namespace confluent-dev
@@ -66,10 +116,10 @@ kubectl get pods --namespace confluent-dev
 Log in to the LDAP pod:
 
 ```
-kubectl --namespace confluent-dev exec -it ldap-0 -- bash
+kubectl --namespace-dev confluent-dev exec -it ldap-0 -- bash
 
 # Run the LDAP search command
-ldapsearch -LLL -x -H ldap://ldap.confluent.svc.cluster.local:389 -b 'dc=test,dc=com' -D "cn=mds,dc=test,dc=com" -w 'Developer!'
+ldapsearch -LLL -x -H ldap://ldap.confluent-dev.svc.cluster.local:389 -b 'dc=test,dc=com' -D "cn=mds,dc=test,dc=com" -w 'Developer!'
 
 # Exit out of the LDAP pod
 exit
@@ -78,7 +128,7 @@ exit
 ## Create TLS certificates
 
 In this scenario, you'll configure authentication using the mTLS mechanism. With mTLS, Confluent components and clients use TLS certificates for authentication. The certificate has a CN that identifies the principal name.
-     
+
 ## Deploy configuration secrets
 
 You'll use Kubernetes secrets to provide credential configurations.
@@ -86,19 +136,18 @@ You'll use Kubernetes secrets to provide credential configurations.
 With Kubernetes secrets, credential management (defining, configuring, updating)
 can be done outside of the Confluent For Kubernetes. You define the configuration
 secret, and then tell Confluent For Kubernetes where to find the configuration.
-   
+
 To support the above deployment scenario, you need to provide the following
 credentials:
 
 * Component TLS Certificates
-
 * Authentication credentials for Zookeeper, Kafka, Control Center, remaining CP components
-
 * RBAC principal credentials
 
 In this scenario, you'll use both:
--  auto-generated certificates for internal network encryption
--  user provided certificates for external network encryption
+
+- auto-generated certificates for internal network encryption
+- user provided certificates for external network encryption
 
 ### Configure auto-generated certificates
 
@@ -156,7 +205,7 @@ kubectl create secret generic tls-kafka \
   --from-file=fullchain.pem=$TUTORIAL_HOME/kafka-server.pem \
   --from-file=cacerts.pem=$TUTORIAL_HOME/externalCacerts.pem \
   --from-file=privkey.pem=$TUTORIAL_HOME/kafka-server-key.pem \
-  --namespace confluent
+  --namespace confluent-dev
 ```
 
 ### Provide authentication credentials
@@ -167,11 +216,11 @@ This secret object contains file based properties. These files are in the
 format that each respective Confluent component requires for authentication
 credentials.
 
-```   
+```
 kubectl create secret generic credential \
   --from-file=basic.txt=$TUTORIAL_HOME/creds-control-center-users.txt \
   --from-file=ldap.txt=$TUTORIAL_HOME/ldap.txt \
-  --namespace confluent
+  --namespace confluent-dev
 ```
 
 ### Provide RBAC principal credentials
@@ -182,33 +231,33 @@ Create a Kubernetes secret object for MDS:
 kubectl create secret generic mds-token \
   --from-file=mdsPublicKey.pem=$TUTORIAL_HOME/../../assets/certs/mds-publickey.txt \
   --from-file=mdsTokenKeyPair.pem=$TUTORIAL_HOME/../../assets/certs/mds-tokenkeypair.txt \
-  --namespace confluent
+  --namespace confluent-dev
    
 # Kafka RBAC credential
 kubectl create secret generic mds-client \
   --from-file=bearer.txt=$TUTORIAL_HOME/kafka-client.txt \
-  --namespace confluent
+  --namespace confluent-dev
 # Control Center RBAC credential
 kubectl create secret generic c3-mds-client \
   --from-file=bearer.txt=$TUTORIAL_HOME/c3-mds-client.txt \
-  --namespace confluent
+  --namespace confluent-dev
 # Connect RBAC credential
 kubectl create secret generic connect-mds-client \
   --from-file=bearer.txt=$TUTORIAL_HOME/connect-mds-client.txt \
-  --namespace confluent
+  --namespace confluent-dev
 # Schema Registry RBAC credential
 kubectl create secret generic sr-mds-client \
   --from-file=bearer.txt=$TUTORIAL_HOME/sr-mds-client.txt \
-  --namespace confluent
+  --namespace confluent-dev
 # ksqlDB RBAC credential
 kubectl create secret generic ksqldb-mds-client \
   --from-file=bearer.txt=$TUTORIAL_HOME/ksqldb-mds-client.txt \
-  --namespace confluent
+  --namespace confluent-dev
 # Kafka REST credential
 kubectl create secret generic rest-credential \
   --from-file=bearer.txt=$TUTORIAL_HOME/kafka-client.txt \
   --from-file=basic.txt=$TUTORIAL_HOME/kafka-client.txt \
-  --namespace confluent
+  --namespace confluent-dev
 ```
 
 ## Deploy Confluent Platform
@@ -216,20 +265,20 @@ kubectl create secret generic rest-credential \
 Deploy Confluent Platform:
 
 ```
-kubectl apply -f $TUTORIAL_HOME/confluent-platform-mtls-rbac.yaml --namespace confluent
+kubectl apply -f $TUTORIAL_HOME/confluent-platform-mtls-rbac.yaml --namespace confluent-dev
 ```
 
 Check that all Confluent Platform resources are deployed:
 
 ```
-kubectl get pods --namespace confluent
+kubectl get pods --namespace confluent-dev
 ```
 
 If any component does not deploy, it could be due to missing configuration information in secrets.
 The Kubernetes events will tell you if there are any issues with secrets. For example:
 
 ```
-kubectl get events --namespace confluent
+kubectl get events --namespace confluent-dev
 Warning  KeyInSecretRefIssue  kafka/kafka  required key [ldap.txt] missing in secretRef [credential] for auth type [ldap_simple]
 ```
 
@@ -237,7 +286,7 @@ The default required RoleBindings for each Confluent component are created
 automatically, and maintained as `confluentrolebinding` custom resources.
 
 ```
-kubectl get confluentrolebinding --namespace confluent
+kubectl get confluentrolebinding --namespace confluent-dev
 ```
 
 ## Create RBAC Rolebindings for Control Center admin
@@ -245,7 +294,7 @@ kubectl get confluentrolebinding --namespace confluent
 Create Control Center Role Binding for a Control Center `testadmin` user.
 
 ```
-kubectl apply -f $TUTORIAL_HOME/controlcenter-testadmin-rolebindings.yaml --namespace confluent
+kubectl apply -f $TUTORIAL_HOME/controlcenter-testadmin-rolebindings.yaml --namespace confluent-dev
 ```
 
 # Configure External Access through Ingress Controller
@@ -263,7 +312,7 @@ cfssl gencert -ca=$TUTORIAL_HOME/externalCacerts.pem \
 kubectl create secret tls tls-nginx-cert \
   --cert=$TUTORIAL_HOME/ingress-server.pem \
   --key=$TUTORIAL_HOME/ingress-server-key.pem \
-  --namespace confluent
+  --namespace confluent-dev
 ```
 
 ## Install the Nginx Ingress Controller
@@ -289,7 +338,7 @@ kubectl apply -f $TUTORIAL_HOME/ksqldb-bootstrap-service.yaml
 kubectl apply -f $TUTORIAL_HOME/mds-bootstrap-service.yaml
 ```
 
-Create an Ingress resource that includes a collection of rules that the Ingress controller uses to route the inbound 
+Create an Ingress resource that includes a collection of rules that the Ingress controller uses to route the inbound
 traffic to each Confluent Platform component. These will point to the bootstrap services created above.
 
 In the resource file, `$TUTORIAL_HOME/ingress-service-hostbased.yaml`, replace `mydomain.com` with the value of your
@@ -312,11 +361,12 @@ NAME                                 TYPE           CLUSTER-IP     EXTERNAL-IP  
 ingress-nginx-controller             LoadBalancer   10.98.82.133   104.197.186.121   80:31568/TCP,443:31295/TCP
 ```
 
-| DNS name | IP address |
-| -------- | ---------- |
-| controlcenter.mydomain.com | The `EXTERNAL-IP` value of the ingress load balancer service |
-| connect.mydomain.com | The `EXTERNAL-IP` value of the ingress load balancer service |
-| ksqldb.mydomain.com | The `EXTERNAL-IP` value of the ingress load balancer service |
+
+| DNS name                   | IP address                                                  |
+| ---------------------------- | ------------------------------------------------------------- |
+| controlcenter.mydomain.com | The`EXTERNAL-IP` value of the ingress load balancer service |
+| connect.mydomain.com       | The`EXTERNAL-IP` value of the ingress load balancer service |
+| ksqldb.mydomain.com        | The`EXTERNAL-IP` value of the ingress load balancer service |
 
 ## Validate
 
@@ -329,7 +379,7 @@ through a local port forwarding like below:
 Set up port forwarding to Control Center web UI from local machine:
 
 ```
-kubectl port-forward controlcenter-0 9021:9021 --namespace confluent
+kubectl port-forward controlcenter-0 9021:9021 --namespace confluent-dev
 ```
 
 Browse to Control Center. You will log in as the `testadmin` user, with `testadmin` password.
@@ -363,21 +413,21 @@ confluent login \
 ## Tear down
 
 ```
-kubectl delete confluentrolebinding --all --namespace confluent
+kubectl delete confluentrolebinding --all --namespace confluent-dev
   
-kubectl delete -f $TUTORIAL_HOME/confluent-platform-mtls-rbac.yaml --namespace confluent
+kubectl delete -f $TUTORIAL_HOME/confluent-platform-mtls-rbac.yaml --namespace confluent-dev
 
-kubectl delete secret rest-credential ksqldb-mds-client sr-mds-client connect-mds-client c3-mds-client mds-client --namespace confluent
+kubectl delete secret rest-credential ksqldb-mds-client sr-mds-client connect-mds-client c3-mds-client mds-client --namespace confluent-dev
 
-kubectl delete secret mds-token --namespace confluent
+kubectl delete secret mds-token --namespace confluent-dev
 
-kubectl delete secret credential --namespace confluent
+kubectl delete secret credential --namespace confluent-dev
 
-kubectl delete secret tls-kafka --namespace confluent
+kubectl delete secret tls-kafka --namespace confluent-dev
 
-helm delete test-ldap --namespace confluent
+helm delete test-ldap --namespace confluent-dev
 
-helm delete operator --namespace confluent
+helm delete operator --namespace confluent-dev
 ```
 
 ## Appendix: Troubleshooting
@@ -386,11 +436,11 @@ helm delete operator --namespace confluent
 
 ```
 # Check for any error messages in events
-kubectl get events --namespace confluent
+kubectl get events --namespace confluent-dev
 
 # Check for any pod failures
-kubectl get pods --namespace confluent
+kubectl get pods --namespace confluent-dev
 
 # For pod failures, check logs
-kubectl logs <pod-name> --namespace confluent
+kubectl logs <pod-name> --namespace confluent-dev
 ```
