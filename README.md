@@ -4,8 +4,8 @@ This is a document in progress!!
 
 ## Open items
 
-* [ ] When we create the application Argo ask for namesapace but it add a sufix "-dev". For this reason at the moemnt all the steps are using "confluent-dev"
-* [X] When running "Run the LDAP search command" I have changed the hostname used of the DNS. ldap.**confluent-dev**.svc.cluster.local:389
+* [x] ~~When we create the application Argo ask for namesapace but it add a sufix "-dev". For this reason at the moemnt all the steps are using "confluent-dev"~~ `The kustomize has a tag namespace and the value is confluent-dev`
+* [x] When running "Run the LDAP search command" I have changed the hostname used of the DNS. ldap.**confluent-dev**.svc.cluster.local:389
 * [ ] All host needs to be updated to the right domain **confluent-dev**. I have done this changes in the base file. This should be managed by kustomize
 * [ ] At the moment you need to install CFK manually. It can be done in the same application with two source. [Multiple Sources for an Application](https://argo-cd.readthedocs.io/en/stable/user-guide/multiple_sources/)
 * [ ] Pre-work create ldap manually
@@ -23,6 +23,7 @@ This is a document in progress!!
 6. Setup Argo
 7. Install CFK
 8. Create new argo application
+9. Create RBAC Rolebindings for Control Center admin
 
 ## Setup Argo
 
@@ -197,7 +198,6 @@ cfssl gencert -ca=$TUTORIAL_HOME/externalCacerts.pem \
 -ca-key=$TUTORIAL_HOME/externalRootCAkey.pem \
 -config=$TUTORIAL_HOME/assets/certs/ca-config.json \
 -profile=server $TUTORIAL_HOME/kafka-server-domain.json | cfssljson -bare $TUTORIAL_HOME/kafka-server
-
 ```
 
 Provide the certificates to Kafka through a Kubernetes Secret:
@@ -363,7 +363,6 @@ NAME                                 TYPE           CLUSTER-IP     EXTERNAL-IP  
 ingress-nginx-controller             LoadBalancer   10.98.82.133   104.197.186.121   80:31568/TCP,443:31295/TCP
 ```
 
-
 | DNS name                   | IP address                                                  |
 | ---------------------------- | ------------------------------------------------------------- |
 | controlcenter.mydomain.com | The`EXTERNAL-IP` value of the ingress load balancer service |
@@ -409,7 +408,6 @@ curl -sX GET "https://ksqldb.mydomain.com:443/clusterStatus" --cacert $TUTORIAL_
 confluent login \
  --url https://mds.mydomain.com \
  --ca-cert-path $TUTORIAL_HOME/externalCacerts.pem
-
 ```
 
 ## Tear down
@@ -446,3 +444,4 @@ kubectl get pods --namespace confluent-dev
 # For pod failures, check logs
 kubectl logs <pod-name> --namespace confluent-dev
 ```
+
