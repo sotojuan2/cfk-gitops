@@ -3,7 +3,7 @@
   "hosts": [
     "connect",
     "connect.mydomain.example",
-    "connect.confluent.svc.cluster.local"
+    "connect.confluent-dev.svc.cluster.local"
   ],
   "key": {
     "algo": "rsa",

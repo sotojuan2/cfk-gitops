@@ -3,7 +3,7 @@
   "hosts": [
     "ksql",
     "ksqldb.mydomain.example",
-    "ksqldb.confluent.svc.cluster.local"
+    "ksqldb.confluent-dev.svc.cluster.local"
   ],
   "key": {
     "algo": "rsa",
