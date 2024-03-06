@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: Operator
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: cfk
+  source:
+    helm:
+      chart: confluentinc
+      repository: https://packages.confluent.io/helm
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: confluent-dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kafka
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  destination:
+    name: ''
+    namespace: confluent
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: overlays/dev
+    repoURL: 'https://github.com/sotojuan2/cfk-gitops'
+    targetRevision: HEAD
+  sources: []
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

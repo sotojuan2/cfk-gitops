@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cfkDev
+  namespace: confluent-dev
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  sources:
+  - chart: confluent
+    repoURL: https://packages.confluent.io/helm
+  - repoURL: 'https://github.com/sotojuan2/cfk-gitops'
+    path: overlays/dev
+    targetRevision: HEAD

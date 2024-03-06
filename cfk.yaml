@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cfk
+  annotations:
+  argocd.argoproj.io/sync-wave: "1"
+spec:
+  destination:
+    name: ''
+    namespace: confluent-dev
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: overlays/dev
+    repoURL: 'https://github.com/sotojuan2/cfk-gitops'
+    targetRevision: HEAD
+  sources: []
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

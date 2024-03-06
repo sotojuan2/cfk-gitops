@@ -8,14 +8,18 @@ This is a document in progress!!
 * [x] When running "Run the LDAP search command" I have changed the hostname used of the DNS. ldap.**confluent-dev**.svc.cluster.local:389
 * [ ] All host needs to be updated to the right domain **confluent-dev**. I have done this changes in the base file. This should be managed by kustomize
 * [x] At the moment you need to install CFK manually. It can be done in the same application with two source. [Multiple Sources for an Application](https://argo-cd.readthedocs.io/en/stable/user-guide/multiple_sources/)
+
 > Beta Feature. Specifying multiple sources for an application is a beta feature. The UI and CLI still generally behave as if only the first source is specified.
 
-* [ ] Using Sync Waves. A Syncwave is a way to order how Argo CD applies the manifests that are stored in git. All manifests have a wave of zero by default, but you can set these by using the argocd.argoproj.io/sync-wave [annotation](https://redhat-scholars.github.io/argocd-tutorial/argocd-tutorial/04-syncwaves-hooks.html).
+* [x] Using Sync Waves. A Syncwave is a way to order how Argo CD applies the manifests that are stored in git. All manifests have a wave of zero by default, but you can set these by using the argocd.argoproj.io/sync-wave [annotation](https://redhat-scholars.github.io/argocd-tutorial/argocd-tutorial/04-syncwaves-hooks.html).
+
 ```
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "5"
 ```
+
+* [ ] auto-generated certificates. [Doc](https://docs.confluent.io/operator/current/co-network-encryption.html#configure-auto-generated-certificates) If that works I can remove the following Create TLS certificates
 * [ ] Pre-work create ldap manually
 * [ ] Error default replication factor is 3. We need to changes to 1...
 * [ ] Secrests must be created manually Tls and users!
@@ -29,7 +33,7 @@ metadata:
 4. Create LDAP users
 5. Create all Sectres
 6. Setup Argo
-7. Install CFK
+7. Create application for operator
 8. Create new argo application
 9. Create RBAC Rolebindings for Control Center admin
 
@@ -39,15 +43,46 @@ I am using the following [link](https://apexlemons.com/devops/argocd-on-minikube
 
 ## Create New argo application
 
+### Create Application for helm
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: operator
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  destination:
+    name: ''
+    namespace: confluent-dev
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: ''
+    repoURL: 'https://packages.confluent.io/helm'
+    targetRevision: 0.824.40
+    chart: confluent-for-kubernetes
+  sources: []
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+```
+
+### Create Application for infra
+
 ```yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: cfk
+  annotations:
+  argocd.argoproj.io/sync-wave: "1"
 spec:
   destination:
     name: ''
-    namespace: confluent
+    namespace: confluent-dev
     server: 'https://kubernetes.default.svc'
   source:
     path: overlays/dev
