@@ -71,6 +71,12 @@ spec:
     syncOptions:
     - ServerSideApply=true
 ```
+execute
+
+```shell
+argocd login
+argocd app create -f cfk-helm2.yaml
+```
 
 - [create LDAP](#deploy-openldap)
 - [Create secrets](#create-tls-certificates)
@@ -83,7 +89,7 @@ kind: Application
 metadata:
   name: cfk
   annotations:
-  argocd.argoproj.io/sync-wave: "1"
+  argocd.argoproj.io/sync-wave: "2"
 spec:
   destination:
     name: ''
@@ -99,6 +105,10 @@ spec:
     automated:
       prune: true
       selfHeal: true
+```
+execute
+```shell
+argocd app create -f cfk.yaml
 ```
 
 # Security setup
