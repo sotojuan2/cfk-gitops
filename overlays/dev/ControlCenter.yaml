@@ -7,3 +7,14 @@
 - op: replace
   path: /spec/replicas
   value: 1
+- op: add
+  path: /spec/configOverrides
+  value:
+    server:
+    - confluent.controlcenter.internal.topics.partitions=1
+    - confluent.controlcenter.internal.topics.replication=1
+    - confluent.controlcenter.command.topic.replication=1
+    - confluent.monitoring.interceptor.topic.partitions=1
+    - confluent.monitoring.interceptor.topic.replication=1
+    - confluent.metrics.topic.partitions=1
+    - confluent.metrics.topic.replication=1
