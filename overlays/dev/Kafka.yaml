@@ -6,13 +6,21 @@
   value: confluentinc/confluent-init-container:2.7.0
 - op: replace
   path: /spec/replicas
-  value: 3
+  value: 1
 - op: add
   path: /spec/configOverrides
   value:
     server:
-    - auto.create.topics.enable=true
+    - auto.create.topics.enable=false
     - confluent.cluster.link.enable=true
+    - offsets.topic.replication.factor=1
+    - default.replication.factor=1
+    - confluent.license.topic.replication.factor=1
+    - confluent.tier.metadata.replication.factor=1
+    - confluent.balancer.topic.replication.factor=1
+    - confluent.security.event.logger.exporter.kafka.topic.replicas=1
+    - transaction.state.log.min.isr=1
+    - transaction.state.log.replication.factor=1
 - op: add
   path: /spec/podTemplate
   value:
