@@ -10,8 +10,8 @@
 - op: add
   path: /spec/configOverrides/server
   value:
-  - name: KAFKA_AUTO_CREATE_TOPICS_ENABLE
-    value: "true"
+  - auto.create.topics.enable=true
+  - confluent.cluster.link.enable=true
 - op: add
   path: /spec/podTemplate
   value:
