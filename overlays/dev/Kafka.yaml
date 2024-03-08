@@ -8,6 +8,11 @@
   path: /spec/replicas
   value: 3
 - op: add
+  path: /spec/configOverrides/server
+  value:
+  - name: KAFKA_AUTO_CREATE_TOPICS_ENABLE
+    value: "true"
+- op: add
   path: /spec/podTemplate
   value:
     probe:
