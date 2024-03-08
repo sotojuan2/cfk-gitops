@@ -20,8 +20,8 @@ metadata:
 ```
 
 * [ ] auto-generated certificates. [Doc](https://docs.confluent.io/operator/current/co-network-encryption.html#configure-auto-generated-certificates) If that works I can remove the following Create TLS certificates
-* [ ] Pre-work create ldap manually
-* [ ] Error default replication factor is 3. We need to changes to 1...
+* [x] ~~Pre-work create ldap manually~~ **Manual Work**
+* [x] ~~Error default replication factor is 3. We need to changes to 1...~~
 * [ ] Secrests must be created manually Tls and users!
 * [ ] kafka-server-domain.json this document is not using **confluent-dev**
 
@@ -68,7 +68,12 @@ spec:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+    - ServerSideApply=true
 ```
+
+- [create LDAP](#deploy-openldap)
+- [Create secrets](#create-tls-certificates)
 
 ### Create Application for infra
 
@@ -120,26 +125,6 @@ Set the tutorial directory for this tutorial under the directory you downloaded 
 
 ```
 export TUTORIAL_HOME=<Tutorial directory>/security/internal_external-tls_mtls_confluent-rbac
-```
-
-## Deploy Confluent for Kubernetes
-
-Set up the Helm Chart:
-
-```
-helm repo add confluentinc https://packages.confluent.io/helm
-```
-
-Install Confluent For Kubernetes using Helm:
-
-```
-helm upgrade --install operator confluentinc/confluent-for-kubernetes --namespace confluent-dev
-```
-
-Check that the Confluent For Kubernetes pod comes up and is running:
-
-```
-kubectl get pods --namespace confluent-dev
 ```
 
 ## Deploy OpenLDAP
