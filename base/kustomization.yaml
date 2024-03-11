@@ -2,3 +2,6 @@ resources:
 - confluent-platform-mtls-rbac.yaml
 - mysealedsecret.json
 - credentialsealed.json
+- ca-pair-sslcerts-sealed.json
+
+
