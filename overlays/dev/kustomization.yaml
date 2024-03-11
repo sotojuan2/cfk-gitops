@@ -20,5 +20,8 @@ patches:
 - path: ControlCenter.yaml
   target:
     kind: ControlCenter
+- path: KafkaRestClass.yaml
+  target:
+    kind: KafkaRestClass
 resources:
 - ../../base
