@@ -1,0 +1,12 @@
+{
+    "kind": "Secret",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "ksqldb-mds-client",
+        "namespace": "confluent-dev",
+        "creationTimestamp": null
+    },
+    "data": {
+        "bearer.txt": "dXNlcm5hbWU9a3NxbApwYXNzd29yZD1rc3FsLXNlY3JldAo="
+    }
+}

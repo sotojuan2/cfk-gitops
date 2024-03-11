@@ -1,0 +1,12 @@
+{
+    "kind": "Secret",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "sr-mds-client",
+        "namespace": "confluent-dev",
+        "creationTimestamp": null
+    },
+    "data": {
+        "bearer.txt": "dXNlcm5hbWU9c3IKcGFzc3dvcmQ9c3Itc2VjcmV0Cg=="
+    }
+}
