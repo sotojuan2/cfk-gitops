@@ -32,10 +32,11 @@ metadata:
 3. Create LDAP
 4. Create LDAP users
 5. Create all Sectres
+9. Create RBAC Rolebindings for Control Center admin
 6. Setup Argo
 7. Create application for operator
 8. Create new argo application
-9. Create RBAC Rolebindings for Control Center admin
+
 
 ## Setup Argo
 

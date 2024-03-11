@@ -1,2 +1,3 @@
 resources:
 - confluent-platform-mtls-rbac.yaml
+- mysealedsecret.json
