@@ -3,5 +3,6 @@ resources:
 - mysealedsecret.json
 - credentialsealed.json
 - ca-pair-sslcerts-sealed.json
+- tls-kafka-sealed.json
 
 
