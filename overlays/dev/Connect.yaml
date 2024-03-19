@@ -7,3 +7,11 @@
 - op: replace
   path: /spec/replicas
   value: 1
+- op: add
+  path: /spec/configOverrides
+  value:
+    server:
+    - config.storage.replication.factor=1
+    - offset.storage.replication.factor=1
+    - status.storage.replication.factor=1
+
