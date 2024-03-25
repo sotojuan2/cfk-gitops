@@ -31,6 +31,7 @@ This repository contains the configuration files and setup instructions for depl
 # Components
 
 ## Kubernetes
+
 Kubernetes is an open-source platform designed to automate deploying, scaling, and operating application containers. It provides a robust infrastructure for deploying and managing containerized applications.
 
 ## ArgoCD
