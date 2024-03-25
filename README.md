@@ -29,8 +29,9 @@ metadata:
 This repository contains the configuration files and setup instructions for deploying and managing [Project Name] using Kubernetes and related tools.
 
 # Components
+These are the components.
 
-## Kubernetes
+## Kubernetes
 
 Kubernetes is an open-source platform designed to automate deploying, scaling, and operating application containers. It provides a robust infrastructure for deploying and managing containerized applications.
 
