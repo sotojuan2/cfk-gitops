@@ -27,7 +27,7 @@ metadata:
 
 # Overview
 
-This repository contains the configuration files and setup instructions for deploying and managing CFK-GITOPS using Kubernetes and related tools.
+This repository contains the configuration files and setup instructions for deploying and managing cfk-gitops using Kubernetes and related tools.
 
 # Components
 
