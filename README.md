@@ -26,28 +26,31 @@ metadata:
 * [ ] kafka-server-domain.json this document is not using **confluent-dev**
 
 # Overview
-This repository contains the configuration files and setup instructions for deploying and managing [Project Name] using Kubernetes and related tools.
+
+This repository contains the configuration files and setup instructions for deploying and managing CFK-GITOPS using Kubernetes and related tools.
 
 # Components
-These are the components.
 
 ## Kubernetes
 
 Kubernetes is an open-source platform designed to automate deploying, scaling, and operating application containers. It provides a robust infrastructure for deploying and managing containerized applications.
 
 ## ArgoCD
+
 ArgoCD is a declarative, GitOps continuous delivery tool for Kubernetes. It automates the deployment of applications to Kubernetes clusters by using Git repositories as the source of truth for the desired state of the application.
 
 ## Sealed Secrets
+
 Sealed Secrets is a Kubernetes controller and tool for managing encrypted Kubernetes Secrets using GitOps workflows. It allows for securely storing and managing sensitive information, such as API keys and passwords, within Git repositories.
 
 ## Kustomize
+
 Kustomize is a template-free, GitOps-native configuration management tool for Kubernetes. It provides a simple yet powerful way to customize, patch, and manage Kubernetes resource configurations without the need for complex templating languages.
 
-## GitHub
+## GitHub
 GitHub is a web-based hosting service for version control using Git. It provides collaboration features such as bug tracking, feature requests, task management, and wikis for every project.
 
-## Confluent Kubernetes Operator
+## Confluent Kubernetes Operator
 The Confluent Kubernetes Operator simplifies the deployment and management of Apache Kafka on Kubernetes. It automates the configuration and scaling of Kafka clusters, making it easier to run Kafka in Kubernetes environments.
 
 ## Steps
@@ -57,10 +60,10 @@ The Confluent Kubernetes Operator simplifies the deployment and management of Ap
 3. Create LDAP
 4. Create LDAP users
 5. Create all Sectres
-9. Create RBAC Rolebindings for Control Center admin
-6. Setup Argo
-7. Create application for operator
-8. Create new argo application
+6. Create RBAC Rolebindings for Control Center admin
+7. Setup Argo
+8. Create application for operator
+9. Create new argo application
 
 # Set the current tutorial directory
 
@@ -69,21 +72,25 @@ Set the tutorial directory for this tutorial under the directory you downloaded 
 ```
 export TUTORIAL_HOME=<Tutorial directory>/security/internal_external-tls_mtls_confluent-rbac
 ```
+
 # Install ArgoCD
+
 ArgoCD can be installed using either kubectl or Helm. Choose one of the following methods:
 
 ## Using kubectl
+
 ```shell
 kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
+
 ## Verify argo status
 
 ```console
 kubectl get all -n argocd
 ```
 
-The output will be similar to 
+The output will be similar to
 
 ```console
 NAME                                                    READY   STATUS    RESTARTS   AGE
@@ -132,7 +139,9 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 ```
 
 ## Access ArgoCD UI
+
 After installing ArgoCD, access the ArgoCD web UI using port-forwarding:
+
 ```console
 kubectl port-forward svc/argocd-server -n argocd 8080:443
 ````
@@ -142,8 +151,6 @@ Then, open your web browser and navigate to http://localhost:8080. The user is a
 ![ArgoCD UI](./images/argocd-ui.png)
 
 Further detail in the  following [link](https://apexlemons.com/devops/argocd-on-minikube-on-macos/)
-
-
 
 ## Create New argo application
 
@@ -175,6 +182,7 @@ spec:
     syncOptions:
     - ServerSideApply=true
 ```
+
 execute
 
 ```shell
@@ -210,48 +218,54 @@ spec:
       prune: true
       selfHeal: true
 ```
+
 execute
+
 ```shell
 argocd app create -f cfk.yaml
 ```
 
-
-
 # Install Sealed Secrets with Helm
 
-
 ## Add Helm Repository
+
 Use the following command to add the Sealed Secrets Helm repository:
 
 ```console
 helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets
 ```
+
 ## Update Helm Repositories (Optional)
+
 It's a good practice to update your Helm repositories to ensure you have the latest information. Run:
 
 ```console
 helm repo update
 ```
-## Install Sealed Secrets
-Use Helm to install Sealed Secrets into your Kubernetes cluster. You can install it into a specific namespace if needed. For example:
 
+## Install Sealed Secrets
+
+Use Helm to install Sealed Secrets into your Kubernetes cluster. You can install it into a specific namespace if needed. For example:
 
 ```console
 helm install sealed-secrets-controller sealed-secrets/sealed-secrets  --namespace kube-system
 ```
+
 Replace sealed-secrets-controller with your preferred release name.
 
 ## Verify Installation
+
 Once the installation is complete, verify that Sealed Secrets has been installed correctly by checking the resources in the target namespace. Run:
 
 ```console
 kubectl get pods -n kube-system
 ```
+
 Replace <namespace> with the namespace where Sealed Secrets was installed (default is usually kube-system).
 
 ## Fetch Sealed Secrets Controller Public Key
-To encrypt secrets using Sealed Secrets, you'll need to fetch the public key of the Sealed Secrets controller. Run the following command:
 
+To encrypt secrets using Sealed Secrets, you'll need to fetch the public key of the Sealed Secrets controller. Run the following command:
 
 ```console
 kubeseal --fetch-cert --controller-name sealed-secrets --controller-namespace kube-system > mycert.pem
@@ -259,17 +273,16 @@ kubeseal --fetch-cert --controller-name sealed-secrets --controller-namespace ku
 
 This command fetches the public key of the Sealed Secrets controller and saves it to a file named mycert.pem.
 
-
 ## (Optional) Access Sealed Secrets UI
-Sealed Secrets also provides a web UI for managing sealed secrets. If you want to access the UI, you may need to set up port-forwarding or expose the service externally depending on your cluster configuration.
 
+Sealed Secrets also provides a web UI for managing sealed secrets. If you want to access the UI, you may need to set up port-forwarding or expose the service externally depending on your cluster configuration.
 
 # Deploy OpenLDAP
 
 This repo includes a Helm chart for [OpenLdap](https://github.com/osixia/docker-openldap). The chart `values.yaml`
 includes the set of principal definitions that Confluent Platform needs for RBAC.
 
-Befor install ldap first you need to create the namespace 
+Befor install ldap first you need to create the namespace
 
 ```console
 kubectl create namespace confluent-dev
@@ -324,8 +337,6 @@ Set the tutorial directory for this tutorial under the directory you downloaded 
 ```
 export TUTORIAL_HOME=<Tutorial directory>/security/internal_external-tls_mtls_confluent-rbac
 ```
-
-
 
 ## Create TLS certificates
 
