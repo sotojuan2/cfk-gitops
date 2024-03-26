@@ -381,11 +381,23 @@ openssl req -new -key $TUTORIAL_HOME/ca-key.pem -x509 \
 
 Create a Kubernetes secret for the certificate authority:
 
-```
+```console
 kubectl create secret tls ca-pair-sslcerts \
   --cert=$TUTORIAL_HOME/ca.pem \
   --key=$TUTORIAL_HOME/ca-key.pem -n confluent-dev
 ```
+
+Create a Kubernetes sealed secret for the certificate authority:
+
+```console
+kubectl create secret tls ca-pair-sslcerts --dry-run=client \
+  --cert=$TUTORIAL_HOME/ca.pem \
+  --key=$TUTORIAL_HOME/ca-key.pem -n confluent-dev -o json > ca-pair-sslcerts.json
+```
+
+```console
+kubeseal --cert mycert.pem -f ca-pair-sslcerts.json -w base/ca-pair-sslcerts-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
+```console
 
 ### Provide external component TLS certificates for Kafka
 

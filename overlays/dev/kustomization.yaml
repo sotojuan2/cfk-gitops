@@ -25,3 +25,4 @@ patches:
     kind: KafkaRestClass
 resources:
 - ../../base
+- ./sealed-secrets
