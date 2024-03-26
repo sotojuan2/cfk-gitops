@@ -1,0 +1,21 @@
+{
+  "kind": "SealedSecret",
+  "apiVersion": "bitnami.com/v1alpha1",
+  "metadata": {
+    "name": "ksqldb-mds-client",
+    "namespace": "confluent-dev",
+    "creationTimestamp": null
+  },
+  "spec": {
+    "template": {
+      "metadata": {
+        "name": "ksqldb-mds-client",
+        "namespace": "confluent-dev",
+        "creationTimestamp": null
+      }
+    },
+    "encryptedData": {
+      "bearer.txt": "AgAU8kEOE8p3oO+6JIIB23WvJTr/7DOPkuwXhzTZL3vfw3dPZQZs2Z3VEI3O8ZcwhIKO6gto132C6TzWNSDk4NUuvG9oPV+m8/LeaIhZyE/8kNXqFsuoRt6UV5tZ8TKcaywNBoXMfdXi+GMTVUOb1Wit/LeedQeQTLZwL9piobR6fLnHDM5S53KR1smhmh2I+MM9mkxng1aDdzMJOYQEJj0OFBlGrMIHKsi5fUYrf0bLKZYekqa/G0tH3P/0EN/hn2VDmDRdLQwHBliDqiVjXIx03T/tiTQPU+etEBmvimIWfPNojVJ67KRIM0rrCEsU7z7sG6GKoasfw/adLihC6eRhwAAZDTXrsrsDETA5YhOvVgQ75rCngf7b+F6lhPbm05Y6At4EjGzDv7j6zVenasYklM2iQRjpJX5Cc3iV0U+6lA9Y3Yt5hutCDwYp9brG+T7Mw7jo+GlzJ51l2vYqVlKd+I8sG7SFQP5yqpdsA15Hy+4dqCEHkiqwcNK9wgqIsIG+LkgvWXNLevI6hvc8/NyGLGHj/hhUsnZDPFFiU5if8pppB6YIjKRDSQflSua7kOjy3r1El+G3RM4nUWtxpGEW+v3CRgI/NDVmG0S9nqnAmgT/Xs6CyNFLsRiXcDSdaX+OfR2vF/BHLSubCAhGFoR+20UmvuGVOsgFY6F+r50VuW2WrWUeRA2hi+kIxV0ETcuoD1g8ulJcxSlDx5/7o147dNAGll4zK/F2Rl0jRapz4n//uw=="
+    }
+  }
+}
