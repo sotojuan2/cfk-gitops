@@ -587,7 +587,7 @@ argocd app create -f cfk.yaml
 
 ![ArgoCD UI](./images/all_app.png)
 
-![ArgoCD UI](./images/argo_all.png)
+![ArgoCD UI](./images/argo-all.png)
 
 Check that all Confluent Platform resources are deployed:
 
