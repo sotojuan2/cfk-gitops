@@ -583,6 +583,9 @@ Or create a new ArgoCD application using the CLI
 
 ```shell
 argocd app create -f cfk.yaml
+![ArgoCD UI](./images/all_app.png)
+
+![ArgoCD UI](./images/argo_all.png)
 
 ```
 Check that all Confluent Platform resources are deployed:
