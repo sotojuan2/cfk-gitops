@@ -25,4 +25,16 @@ patches:
     kind: KafkaRestClass
 resources:
 - ../../base
-- ./sealed-secrets
+- ./sealed-secrets/credential-sealed.json
+- ./sealed-secrets/ca-pair-sslcerts-sealed.json
+- ./sealed-secrets/tls-kafka-sealed.json
+- ./sealed-secrets/mds-token-sealed.json
+- ./sealed-secrets/mds-client-sealed.json
+- ./sealed-secrets/c3-mds-client-sealed.json
+- ./sealed-secrets/connect-mds-client-sealed.json
+- ./sealed-secrets/sr-mds-client-sealed.json
+- ./sealed-secrets/ksqldb-mds-client-sealed.json
+- ./sealed-secrets/rest-credential-sealed.json
+
+
+
