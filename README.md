@@ -48,9 +48,11 @@ Sealed Secrets is a Kubernetes controller and tool for managing encrypted Kubern
 Kustomize is a template-free, GitOps-native configuration management tool for Kubernetes. It provides a simple yet powerful way to customize, patch, and manage Kubernetes resource configurations without the need for complex templating languages.
 
 ## GitHub
+
 GitHub is a web-based hosting service for version control using Git. It provides collaboration features such as bug tracking, feature requests, task management, and wikis for every project.
 
 ## Confluent Kubernetes Operator
+
 The Confluent Kubernetes Operator simplifies the deployment and management of Apache Kafka on Kubernetes. It automates the configuration and scaling of Kafka clusters, making it easier to run Kafka in Kubernetes environments.
 
 ## Steps
@@ -152,78 +154,6 @@ Then, open your web browser and navigate to http://localhost:8080. The user is a
 
 Further detail in the  following [link](https://apexlemons.com/devops/argocd-on-minikube-on-macos/)
 
-## Create New argo application
-
-### Create Application for helm
-
-```yaml
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: operator
-  annotations:
-    argocd.argoproj.io/sync-wave: "1"
-spec:
-  destination:
-    name: ''
-    namespace: confluent-dev
-    server: 'https://kubernetes.default.svc'
-  source:
-    path: ''
-    repoURL: 'https://packages.confluent.io/helm'
-    targetRevision: 0.824.40
-    chart: confluent-for-kubernetes
-  sources: []
-  project: default
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-    - ServerSideApply=true
-```
-
-execute
-
-```shell
-argocd login
-argocd app create -f cfk-helm2.yaml
-```
-
-- [create LDAP](#deploy-openldap)
-- [Create secrets](#create-tls-certificates)
-
-### Create Application for infra
-
-```yaml
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: cfk
-  annotations:
-  argocd.argoproj.io/sync-wave: "2"
-spec:
-  destination:
-    name: ''
-    namespace: confluent-dev
-    server: 'https://kubernetes.default.svc'
-  source:
-    path: overlays/dev
-    repoURL: 'https://github.com/sotojuan2/cfk-gitops'
-    targetRevision: HEAD
-  sources: []
-  project: default
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-```
-
-execute
-
-```shell
-argocd app create -f cfk.yaml
-```
 
 # Install Sealed Secrets with Helm
 
@@ -379,13 +309,13 @@ openssl req -new -key $TUTORIAL_HOME/ca-key.pem -x509 \
   -subj "/C=US/ST=CA/L=MountainView/O=Confluent/OU=Operator/CN=TestCA"
 ```
 
-Create a Kubernetes secret for the certificate authority:
+Set environment varible for the sealed secret environment
 
 ```console
-kubectl create secret tls ca-pair-sslcerts \
-  --cert=$TUTORIAL_HOME/ca.pem \
-  --key=$TUTORIAL_HOME/ca-key.pem -n confluent-dev
+SEALED_SECRET=/Users/juansoto/Documents/Github/cfk-gitops/overlays/dev/sealed-secrets
 ```
+
+
 
 Create a Kubernetes sealed secret for the certificate authority:
 
@@ -396,8 +326,16 @@ kubectl create secret tls ca-pair-sslcerts --dry-run=client \
 ```
 
 ```console
-kubeseal --cert mycert.pem -f ca-pair-sslcerts.json -w base/ca-pair-sslcerts-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
+kubeseal --cert mycert.pem -f ca-pair-sslcerts.json -w $SEALED_SECRET/ca-pair-sslcerts-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
 ```console
+
+(**Only if you are not using sealed secret**) Create a Kubernetes secret for the certificate authority:
+
+```console
+kubectl create secret tls ca-pair-sslcerts \
+  --cert=$TUTORIAL_HOME/ca.pem \
+  --key=$TUTORIAL_HOME/ca-key.pem -n confluent-dev
+```
 
 ### Provide external component TLS certificates for Kafka
 
@@ -405,7 +343,7 @@ In this scenario, you'll be allowing Kafka clients to connect with Kafka through
 
 For that purpose, you'll provide a server certificate that secures the external domain used for Kafka access.
 
-```
+```console
 # If you don't have one, create a root certificate authority for the external component certs
 openssl genrsa -out $TUTORIAL_HOME/externalRootCAkey.pem 2048
 
@@ -422,7 +360,23 @@ cfssl gencert -ca=$TUTORIAL_HOME/externalCacerts.pem \
 -profile=server $TUTORIAL_HOME/kafka-server-domain.json | cfssljson -bare $TUTORIAL_HOME/kafka-server
 ```
 
-Provide the certificates to Kafka through a Kubernetes Secret:
+Provide the certificates to Kafka through a Kubernetes Sealed Secret:
+
+```console
+kubectl create secret generic tls-kafka --dry-run=client \
+  --from-file=fullchain.pem=$TUTORIAL_HOME/kafka-server.pem \
+  --from-file=cacerts.pem=$TUTORIAL_HOME/externalCacerts.pem \
+  --from-file=privkey.pem=$TUTORIAL_HOME/kafka-server-key.pem \
+  --namespace confluent-dev -o json >tls-kafka.json
+```
+
+```console
+kubeseal --cert mycert.pem -f tls-kafka.json -w $SEALED_SECRET/tls-kafka-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
+```
+
+
+
+(**Only if you are not using sealed secret**) Provide the certificates to Kafka through a Kubernetes Secret:
 
 ```
 kubectl create secret generic tls-kafka \
@@ -440,6 +394,21 @@ This secret object contains file based properties. These files are in the
 format that each respective Confluent component requires for authentication
 credentials.
 
+```console
+kubectl create secret generic credential --dry-run=client \
+  --from-file=basic.txt=$TUTORIAL_HOME/creds-control-center-users.txt \
+  --from-file=ldap.txt=$TUTORIAL_HOME/ldap.txt \
+  --namespace confluent-dev -o json >credential.json
+```
+
+```console
+kubeseal --cert mycert.pem -f credential.json -w $SEALED_SECRET/credential-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
+```
+
+
+
+(**Only if you are not using sealed secret**) 
+
 ```
 kubectl create secret generic credential \
   --from-file=basic.txt=$TUTORIAL_HOME/creds-control-center-users.txt \
@@ -450,6 +419,63 @@ kubectl create secret generic credential \
 ### Provide RBAC principal credentials
 
 Create a Kubernetes secret object for MDS:
+
+```console
+kubectl create secret generic mds-token --dry-run=client \
+  --from-file=mdsPublicKey.pem=$TUTORIAL_HOME/assets/certs/mds-publickey.txt \
+  --from-file=mdsTokenKeyPair.pem=$TUTORIAL_HOME/assets/certs/mds-tokenkeypair.txt \
+  --namespace confluent-dev -o json > mds-token.json
+
+# Kafka RBAC credential
+kubectl create secret generic mds-client --dry-run=client \
+  --from-file=bearer.txt=$TUTORIAL_HOME/kafka-client.txt \
+  --namespace confluent-dev -o json > mds-client.json
+# Control Center RBAC credential
+kubectl create secret generic c3-mds-client --dry-run=client \
+  --from-file=bearer.txt=$TUTORIAL_HOME/c3-mds-client.txt \
+  --namespace confluent-dev -o json > c3-mds-client.json
+# Connect RBAC credential
+kubectl create secret generic connect-mds-client --dry-run=client \
+  --from-file=bearer.txt=$TUTORIAL_HOME/connect-mds-client.txt \
+  --namespace confluent-dev -o json > connect-mds-client.json
+# Schema Registry RBAC credential
+kubectl create secret generic sr-mds-client --dry-run=client \
+  --from-file=bearer.txt=$TUTORIAL_HOME/sr-mds-client.txt \
+  --namespace confluent-dev -o json > sr-mds-client.json
+# ksqlDB RBAC credential
+kubectl create secret generic ksqldb-mds-client --dry-run=client \
+  --from-file=bearer.txt=$TUTORIAL_HOME/ksqldb-mds-client.txt \
+  --namespace confluent-dev -o json >ksqldb-mds-client.json
+# Kafka REST credential
+kubectl create secret generic rest-credential --dry-run=client \
+  --from-file=bearer.txt=$TUTORIAL_HOME/kafka-client.txt \
+  --from-file=basic.txt=$TUTORIAL_HOME/kafka-client.txt \
+  --namespace confluent-dev -o json >rest-credential.json
+```
+
+```console
+kubeseal --cert mycert.pem -f mds-token.json -w $SEALED_SECRET/mds-token-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
+
+# Kafka RBAC credential
+kubeseal --cert mycert.pem -f mds-client.json -w $SEALED_SECRET/mds-client-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
+
+# Control Center RBAC credential
+kubeseal --cert mycert.pem -f c3-mds-client.json -w $SEALED_SECRET/c3-mds-client-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
+
+# Connect RBAC credential
+kubeseal --cert mycert.pem -f connect-mds-client.json -w $SEALED_SECRET/connect-mds-client-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
+
+# Schema Registry RBAC credential
+kubeseal --cert mycert.pem -f sr-mds-client.json -w $SEALED_SECRET/sr-mds-client-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
+
+# ksqlDB RBAC credential
+kubeseal --cert mycert.pem -f ksqldb-mds-client.json -w $SEALED_SECRET/ksqldb-mds-client-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
+
+# Kafka REST credential
+kubeseal --cert mycert.pem -f rest-credential.json -w $SEALED_SECRET/rest-credential-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
+```
+
+(**Only if you are not using sealed secret**) 
 
 ```
 kubectl create secret generic mds-token \
@@ -484,14 +510,81 @@ kubectl create secret generic rest-credential \
   --namespace confluent-dev
 ```
 
+## Deploy Confluet for kubernetes
+
+Login in argo UI and add a new application. Copy and paste the following yaml.
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: operator
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  destination:
+    name: ''
+    namespace: confluent-dev
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: ''
+    repoURL: 'https://packages.confluent.io/helm'
+    targetRevision: 0.824.40
+    chart: confluent-for-kubernetes
+  sources: []
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - ServerSideApply=true
+```
+
+Or you can use the argocd cli
+
+```shell
+argocd login
+argocd app create -f cfk-helm2.yaml
+```
+
+At the end you will see the following in argocd UI
+![ArgoCD UI](./images/operator.png)
+
 ## Deploy Confluent Platform
 
-Deploy Confluent Platform:
+Create a new ArgoCD application using the UI
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cfk
+  annotations:
+  argocd.argoproj.io/sync-wave: "2"
+spec:
+  destination:
+    name: ''
+    namespace: confluent-dev
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: overlays/dev
+    repoURL: 'https://github.com/sotojuan2/cfk-gitops'
+    targetRevision: HEAD
+  sources: []
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+```
+
+Or create a new ArgoCD application using the CLI
+
+```shell
+argocd app create -f cfk.yaml
 
 ```
-kubectl apply -f $TUTORIAL_HOME/confluent-platform-mtls-rbac.yaml --namespace confluent-dev
-```
-
 Check that all Confluent Platform resources are deployed:
 
 ```
