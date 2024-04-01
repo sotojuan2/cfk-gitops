@@ -57,3 +57,5 @@ You have an example of this pipeline:
 
 
 # Uses cases
+
+Some examples are:
