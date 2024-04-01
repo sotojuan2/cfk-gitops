@@ -55,3 +55,9 @@ On the other hand, the application pipeline, managed by developers, handles the 
 You have an example of this pipeline:
 * [ksql CI/CD pipeline.](https://github.com/sotojuan2/Ksqldb-CICD)
 
+
+# Uses cases
+
+Some examples are:
+* example1
+* example2
