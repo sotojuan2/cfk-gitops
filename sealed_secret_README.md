@@ -121,7 +121,7 @@ Replace <namespace> with the namespace where Sealed Secrets was installed (defau
 To encrypt secrets using Sealed Secrets, you'll need to fetch the public key of the Sealed Secrets controller. Run the following command:
 
 ```console
-kubeseal --fetch-cert --controller-name sealed-secrets --controller-namespace kube-system > mycert.pem
+kubeseal --fetch-cert --controller-name sealed-secrets-controller --controller-namespace kube-system > mycert.pem
 ```
 
 This command fetches the public key of the Sealed Secrets controller and saves it to a file named mycert.pem.
@@ -407,7 +407,7 @@ spec:
 Or you can use the argocd cli
 
 ```shell
-argocd login
+argocd login localhost:8080
 argocd app create -f cfk-helm2.yaml
 ```
 
