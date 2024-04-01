@@ -31,13 +31,12 @@ This repository contains the configuration files and setup instructions for depl
 
 # Components
 
-## Kubernetes
+These are the components used for this repo.
+![Tools](./images/tools.png)
 
-Kubernetes is an open-source platform designed to automate deploying, scaling, and operating application containers. It provides a robust infrastructure for deploying and managing containerized applications.
+## GitHub
 
-## ArgoCD
-
-ArgoCD is a declarative, GitOps continuous delivery tool for Kubernetes. It automates the deployment of applications to Kubernetes clusters by using Git repositories as the source of truth for the desired state of the application.
+GitHub is a web-based hosting service for version control using Git. It provides collaboration features such as bug tracking, feature requests, task management, and wikis for every project.
 
 ## Sealed Secrets
 
@@ -47,9 +46,13 @@ Sealed Secrets is a Kubernetes controller and tool for managing encrypted Kubern
 
 Kustomize is a template-free, GitOps-native configuration management tool for Kubernetes. It provides a simple yet powerful way to customize, patch, and manage Kubernetes resource configurations without the need for complex templating languages.
 
-## GitHub
+## ArgoCD
 
-GitHub is a web-based hosting service for version control using Git. It provides collaboration features such as bug tracking, feature requests, task management, and wikis for every project.
+ArgoCD is a declarative, GitOps continuous delivery tool for Kubernetes. It automates the deployment of applications to Kubernetes clusters by using Git repositories as the source of truth for the desired state of the application.
+
+## Kubernetes
+
+Kubernetes is an open-source platform designed to automate deploying, scaling, and operating application containers. It provides a robust infrastructure for deploying and managing containerized applications.
 
 ## Confluent Kubernetes Operator
 
