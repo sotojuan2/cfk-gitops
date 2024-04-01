@@ -1,0 +1,117 @@
+[
+{
+    "scope": {
+      "clusters": {
+        "kafka-cluster": "yo1fk7WHR7-ko0etTVD-JQ"
+      }
+    },
+    "rolebindings": {
+      "User:testadmin": {
+        "ClusterAdmin": [
+        {
+            "resourceType": "Group",
+            "name": "XXXXtest2-activity_",
+            "patternType": "PREFIXED"
+            },
+            {
+            "resourceType": "Group",
+            "name": "XXXXtest2-activity_",
+            "patternType": "PREFIXED"
+            }
+        ],
+        "DeveloperRead": [
+          {
+            "resourceType": "Group",
+            "name": "test2-activity_",
+            "patternType": "PREFIXED"
+          },
+          {
+            "resourceType": "Group",
+            "name": "test-activity_",
+            "patternType": "PREFIXED"
+          },
+          {
+            "resourceType": "Group",
+            "name": "activity_",
+            "patternType": "PREFIXED"
+          },
+          {
+            "resourceType": "Topic",
+            "name": "wiki.",
+            "patternType": "PREFIXED"
+          },
+          {
+            "resourceType": "Topic",
+            "name": "test2-wiki.",
+            "patternType": "PREFIXED"
+          },
+          {
+            "resourceType": "Topic",
+            "name": "test2-activity.",
+            "patternType": "PREFIXED"
+          },
+          {
+            "resourceType": "Topic",
+            "name": "test-wiki.",
+            "patternType": "PREFIXED"
+          },
+          {
+            "resourceType": "Topic",
+            "name": "test-activity.",
+            "patternType": "PREFIXED"
+          },
+          {
+            "resourceType": "Topic",
+            "name": "activity.",
+            "patternType": "PREFIXED"
+          }
+        ],
+        "SystemAdmin": []
+      }
+    }
+  },
+  {
+    "scope": {
+      "clusters": {
+        "kafka-cluster": "yo1fk7WHR7-ko0etTVD-JQ",
+        "connect-cluster": "confluent.connect"
+      }
+    },
+    "rolebindings": {
+      "User:testadmin": {
+        "SystemAdmin": []
+      }
+    }
+  },
+  {
+    "scope": {
+      "clusters": {
+        "kafka-cluster": "yo1fk7WHR7-ko0etTVD-JQ",
+        "ksql-cluster": "confluent.ksqldb_"
+      }
+    },
+    "rolebindings": {
+      "User:testadmin": {
+        "ResourceOwner": [
+          {
+            "resourceType": "KsqlCluster",
+            "name": "ksql-cluster",
+            "patternType": "LITERAL"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "scope": {
+      "clusters": {
+        "kafka-cluster": "yo1fk7WHR7-ko0etTVD-JQ",
+        "schema-registry-cluster": "id_schemaregistry_confluent"
+      }
+    },
+    "rolebindings": {
+      "User:testadmin": {
+        "SystemAdmin": []
+      }
+    }
+  }]

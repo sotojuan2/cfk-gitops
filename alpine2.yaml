@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mi-pod-con-bash
+spec:
+  containers:
+  - name: contenedor-principal
+    image: ubuntu:latest
+    command:
+      - "/bin/sleep"
+      - "infinity"
+    stdin: true
+    tty: true

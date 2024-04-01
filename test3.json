@@ -1,0 +1,10 @@
+{
+    "resourceType": "Topic",
+    "name": "activity.",
+    "patternType": "PREFIXED"
+  }
+  {
+    "resourceType": "KsqlCluster",
+    "name": "ksql-cluster",
+    "patternType": "LITERAL"
+  }
