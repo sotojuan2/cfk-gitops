@@ -1,3 +1,29 @@
+# DRAFT DOCUMENT!!
+
+This is a document in progress!!
+
+## Open items
+
+* [x] ~~When we create the application Argo ask for namesapace but it add a sufix "-dev". For this reason at the moemnt all the steps are using "confluent-dev"~~ `The kustomize has a tag namespace and the value is confluent-dev`
+* [x] When running "Run the LDAP search command" I have changed the hostname used of the DNS. ldap.**confluent-dev**.svc.cluster.local:389
+* [ ] All host needs to be updated to the right domain **confluent-dev**. I have done this changes in the base file. This should be managed by kustomize
+* [x] At the moment you need to install CFK manually. It can be done in the same application with two source. [Multiple Sources for an Application](https://argo-cd.readthedocs.io/en/stable/user-guide/multiple_sources/)
+
+> Beta Feature. Specifying multiple sources for an application is a beta feature. The UI and CLI still generally behave as if only the first source is specified.
+
+* [x] Using Sync Waves. A Syncwave is a way to order how Argo CD applies the manifests that are stored in git. All manifests have a wave of zero by default, but you can set these by using the argocd.argoproj.io/sync-wave [annotation](https://redhat-scholars.github.io/argocd-tutorial/argocd-tutorial/04-syncwaves-hooks.html).
+
+```
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+```
+
+* [ ] auto-generated certificates. [Doc](https://docs.confluent.io/operator/current/co-network-encryption.html#configure-auto-generated-certificates) If that works I can remove the following Create TLS certificates
+* [x] ~~Pre-work create ldap manually~~ **Manual Work**
+* [x] ~~Error default replication factor is 3. We need to changes to 1...~~
+* [ ] Secrests must be created manually Tls and users!
+* [ ] kafka-server-domain.json this document is not using **confluent-dev**
 
 # Overview
 
@@ -32,6 +58,17 @@ Kubernetes is an open-source platform designed to automate deploying, scaling, a
 
 The Confluent Kubernetes Operator simplifies the deployment and management of Apache Kafka on Kubernetes. It automates the configuration and scaling of Kafka clusters, making it easier to run Kafka in Kubernetes environments.
 
+## Steps
+
+1. Donwload CFK
+2. kubectl create namespace confluent-dev
+3. Create LDAP
+4. Create LDAP users
+5. Create all Sectres
+6. Create RBAC Rolebindings for Control Center admin
+7. Setup Argo
+8. Create application for operator
+9. Create new argo application
 
 # Set the current tutorial directory
 
