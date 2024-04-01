@@ -1,46 +1,3 @@
-
-# Overview
-
-This repository contains the configuration files and setup instructions for deploying and managing cfk-gitops using Kubernetes and related tools.
-
-# Components
-
-These are the components used for this repo.
-![Tools](./images/tools.png)
-
-## GitHub
-
-GitHub is a web-based hosting service for version control using Git. It provides collaboration features such as bug tracking, feature requests, task management, and wikis for every project.
-
-## Sealed Secrets
-
-Sealed Secrets is a Kubernetes controller and tool for managing encrypted Kubernetes Secrets using GitOps workflows. It allows for securely storing and managing sensitive information, such as API keys and passwords, within Git repositories.
-
-## Kustomize
-
-Kustomize is a template-free, GitOps-native configuration management tool for Kubernetes. It provides a simple yet powerful way to customize, patch, and manage Kubernetes resource configurations without the need for complex templating languages.
-
-## ArgoCD
-
-ArgoCD is a declarative, GitOps continuous delivery tool for Kubernetes. It automates the deployment of applications to Kubernetes clusters by using Git repositories as the source of truth for the desired state of the application.
-
-## Kubernetes
-
-Kubernetes is an open-source platform designed to automate deploying, scaling, and operating application containers. It provides a robust infrastructure for deploying and managing containerized applications.
-
-## Confluent Kubernetes Operator
-
-The Confluent Kubernetes Operator simplifies the deployment and management of Apache Kafka on Kubernetes. It automates the configuration and scaling of Kafka clusters, making it easier to run Kafka in Kubernetes environments.
-
-
-# Set the current tutorial directory
-
-Set the tutorial directory for this tutorial under the directory you downloaded the tutorial files:
-
-```
-export TUTORIAL_HOME=<Tutorial directory>/security/internal_external-tls_mtls_confluent-rbac
-```
-
 # Install ArgoCD
 
 ArgoCD can be installed using either kubectl or Helm. Choose one of the following methods:
@@ -139,39 +96,6 @@ It's a good practice to update your Helm repositories to ensure you have the lat
 helm repo update
 ```
 
-## Install Sealed Secrets
-
-Use Helm to install Sealed Secrets into your Kubernetes cluster. You can install it into a specific namespace if needed. For example:
-
-```console
-helm install sealed-secrets-controller sealed-secrets/sealed-secrets  --namespace kube-system
-```
-
-Replace sealed-secrets-controller with your preferred release name.
-
-## Verify Installation
-
-Once the installation is complete, verify that Sealed Secrets has been installed correctly by checking the resources in the target namespace. Run:
-
-```console
-kubectl get pods -n kube-system
-```
-
-Replace <namespace> with the namespace where Sealed Secrets was installed (default is usually kube-system).
-
-## Fetch Sealed Secrets Controller Public Key
-
-To encrypt secrets using Sealed Secrets, you'll need to fetch the public key of the Sealed Secrets controller. Run the following command:
-
-```console
-kubeseal --fetch-cert --controller-name sealed-secrets --controller-namespace kube-system > mycert.pem
-```
-
-This command fetches the public key of the Sealed Secrets controller and saves it to a file named mycert.pem.
-
-## (Optional) Access Sealed Secrets UI
-
-Sealed Secrets also provides a web UI for managing sealed secrets. If you want to access the UI, you may need to set up port-forwarding or expose the service externally depending on your cluster configuration.
 
 # Deploy OpenLDAP
 
@@ -275,27 +199,7 @@ openssl req -new -key $TUTORIAL_HOME/ca-key.pem -x509 \
   -subj "/C=US/ST=CA/L=MountainView/O=Confluent/OU=Operator/CN=TestCA"
 ```
 
-Set environment varible for the sealed secret environment
-
-```console
-SEALED_SECRET=/Users/juansoto/Documents/Github/cfk-gitops/overlays/dev/sealed-secrets
-```
-
-
-
-Create a Kubernetes sealed secret for the certificate authority:
-
-```console
-kubectl create secret tls ca-pair-sslcerts --dry-run=client \
-  --cert=$TUTORIAL_HOME/ca.pem \
-  --key=$TUTORIAL_HOME/ca-key.pem -n confluent-dev -o json > ca-pair-sslcerts.json
-```
-
-```console
-kubeseal --cert mycert.pem -f ca-pair-sslcerts.json -w $SEALED_SECRET/ca-pair-sslcerts-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
-```
-
-(**Only if you are not using sealed secret**) Create a Kubernetes secret for the certificate authority:
+Create a Kubernetes secret for the certificate authority:
 
 ```console
 kubectl create secret tls ca-pair-sslcerts \
@@ -326,23 +230,7 @@ cfssl gencert -ca=$TUTORIAL_HOME/externalCacerts.pem \
 -profile=server $TUTORIAL_HOME/kafka-server-domain.json | cfssljson -bare $TUTORIAL_HOME/kafka-server
 ```
 
-Provide the certificates to Kafka through a Kubernetes Sealed Secret:
-
-```console
-kubectl create secret generic tls-kafka --dry-run=client \
-  --from-file=fullchain.pem=$TUTORIAL_HOME/kafka-server.pem \
-  --from-file=cacerts.pem=$TUTORIAL_HOME/externalCacerts.pem \
-  --from-file=privkey.pem=$TUTORIAL_HOME/kafka-server-key.pem \
-  --namespace confluent-dev -o json >tls-kafka.json
-```
-
-```console
-kubeseal --cert mycert.pem -f tls-kafka.json -w $SEALED_SECRET/tls-kafka-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
-```
-
-
-
-(**Only if you are not using sealed secret**) Provide the certificates to Kafka through a Kubernetes Secret:
+Provide the certificates to Kafka through a Kubernetes Secret:
 
 ```
 kubectl create secret generic tls-kafka \
@@ -360,20 +248,6 @@ This secret object contains file based properties. These files are in the
 format that each respective Confluent component requires for authentication
 credentials.
 
-```console
-kubectl create secret generic credential --dry-run=client \
-  --from-file=basic.txt=$TUTORIAL_HOME/creds-control-center-users.txt \
-  --from-file=ldap.txt=$TUTORIAL_HOME/ldap.txt \
-  --namespace confluent-dev -o json >credential.json
-```
-
-```console
-kubeseal --cert mycert.pem -f credential.json -w $SEALED_SECRET/credential-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
-```
-
-
-
-(**Only if you are not using sealed secret**) 
 
 ```
 kubectl create secret generic credential \
@@ -386,62 +260,6 @@ kubectl create secret generic credential \
 
 Create a Kubernetes secret object for MDS:
 
-```console
-kubectl create secret generic mds-token --dry-run=client \
-  --from-file=mdsPublicKey.pem=$TUTORIAL_HOME/assets/certs/mds-publickey.txt \
-  --from-file=mdsTokenKeyPair.pem=$TUTORIAL_HOME/assets/certs/mds-tokenkeypair.txt \
-  --namespace confluent-dev -o json > mds-token.json
-
-# Kafka RBAC credential
-kubectl create secret generic mds-client --dry-run=client \
-  --from-file=bearer.txt=$TUTORIAL_HOME/kafka-client.txt \
-  --namespace confluent-dev -o json > mds-client.json
-# Control Center RBAC credential
-kubectl create secret generic c3-mds-client --dry-run=client \
-  --from-file=bearer.txt=$TUTORIAL_HOME/c3-mds-client.txt \
-  --namespace confluent-dev -o json > c3-mds-client.json
-# Connect RBAC credential
-kubectl create secret generic connect-mds-client --dry-run=client \
-  --from-file=bearer.txt=$TUTORIAL_HOME/connect-mds-client.txt \
-  --namespace confluent-dev -o json > connect-mds-client.json
-# Schema Registry RBAC credential
-kubectl create secret generic sr-mds-client --dry-run=client \
-  --from-file=bearer.txt=$TUTORIAL_HOME/sr-mds-client.txt \
-  --namespace confluent-dev -o json > sr-mds-client.json
-# ksqlDB RBAC credential
-kubectl create secret generic ksqldb-mds-client --dry-run=client \
-  --from-file=bearer.txt=$TUTORIAL_HOME/ksqldb-mds-client.txt \
-  --namespace confluent-dev -o json >ksqldb-mds-client.json
-# Kafka REST credential
-kubectl create secret generic rest-credential --dry-run=client \
-  --from-file=bearer.txt=$TUTORIAL_HOME/kafka-client.txt \
-  --from-file=basic.txt=$TUTORIAL_HOME/kafka-client.txt \
-  --namespace confluent-dev -o json >rest-credential.json
-```
-
-```console
-kubeseal --cert mycert.pem -f mds-token.json -w $SEALED_SECRET/mds-token-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
-
-# Kafka RBAC credential
-kubeseal --cert mycert.pem -f mds-client.json -w $SEALED_SECRET/mds-client-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
-
-# Control Center RBAC credential
-kubeseal --cert mycert.pem -f c3-mds-client.json -w $SEALED_SECRET/c3-mds-client-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
-
-# Connect RBAC credential
-kubeseal --cert mycert.pem -f connect-mds-client.json -w $SEALED_SECRET/connect-mds-client-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
-
-# Schema Registry RBAC credential
-kubeseal --cert mycert.pem -f sr-mds-client.json -w $SEALED_SECRET/sr-mds-client-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
-
-# ksqlDB RBAC credential
-kubeseal --cert mycert.pem -f ksqldb-mds-client.json -w $SEALED_SECRET/ksqldb-mds-client-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
-
-# Kafka REST credential
-kubeseal --cert mycert.pem -f rest-credential.json -w $SEALED_SECRET/rest-credential-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
-```
-
-(**Only if you are not using sealed secret**) 
 
 ```
 kubectl create secret generic mds-token \
