@@ -8,7 +8,7 @@ spec:
   principal:
     type: user
     name: testadmin
-  role: ClusterAdmin
+  role: SystemAdmin
   ## if use other kafkaRestClass except for default, need to configure accordingly
   #kafkaRestClassRef:
   # name: default

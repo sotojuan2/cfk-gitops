@@ -1,0 +1,23 @@
+apiVersion: platform.confluent.io/v1beta1
+kind: ConfluentRolebinding
+metadata:
+  name: confalm-activity-consumer-kf-dev-read4
+  labels:
+    rolebinding-type: kafka
+spec:
+  principal:
+    type: user
+    name: testadmin
+  role: DeveloperRead
+  resourcePatterns:
+    - name: "test34-activity."
+      patternType: PREFIXED
+      resourceType: Topic
+    - name: "test34-activity_"
+      patternType: PREFIXED
+      resourceType: Group
+    - name: "test34-wiki."
+      patternType: PREFIXED
+      resourceType: Topic
+
+
