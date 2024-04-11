@@ -2,7 +2,7 @@
     "kind": "Secret",
     "apiVersion": "v1",
     "metadata": {
-        "name": "ca-pair-sslcerts-dr",
+        "name": "ca-pair-sslcerts",
         "namespace": "confluent-dr",
         "creationTimestamp": null
     },
