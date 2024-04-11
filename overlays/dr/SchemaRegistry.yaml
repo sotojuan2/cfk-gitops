@@ -13,3 +13,6 @@
 - op: replace
   path: /spec/dependencies/mds/endpoint
   value: https://kafka.confluent-dr.svc.cluster.local:8090
+- op: replace
+  path: /metadata/name
+  value: dr-schemaregistry

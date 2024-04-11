@@ -115,9 +115,10 @@ kubectl create secret tls ca-pair-sslcerts --dry-run=client \
   --cert=$TUTORIAL_HOME/ca.pem \
   --key=$TUTORIAL_HOME/ca-key.pem -n confluent-dr -o json > ca-pair-sslcerts.json
 ```
+NECESARIO!!
 
 ```console
-kubeseal --cert mycert.pem -f ca-pair-sslcerts.json -w $SEALED_SECRET_DR/ca-pair-sslcerts-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
+kubeseal --cert mycert.pem -f ca-pair-sslcerts.json -w $SEALED_SECRET_DR/ca-pair-sslcerts-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
 ```
 
 
@@ -157,7 +158,7 @@ kubectl create secret generic tls-kafka --dry-run=client \
 ```
 
 ```console
-kubeseal --cert mycert.pem -f tls-kafka.json -w $SEALED_SECRET_DR/tls-kafka-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
+kubeseal --cert mycert.pem -f tls-kafka.json -w $SEALED_SECRET_DR/tls-kafka-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
 ```
 
 
@@ -180,7 +181,7 @@ kubectl create secret generic credential --dry-run=client \
 
 NECESARIO!!
 ```console
-kubeseal --cert mycert.pem -f credential.json -w $SEALED_SECRET_DR/credential-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
+kubeseal --cert mycert.pem -f credential.json -w $SEALED_SECRET_DR/credential-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
 ```
 
 
@@ -224,25 +225,25 @@ kubectl create secret generic rest-credential --dry-run=client \
 ```
 
 ```console
-kubeseal --cert mycert.pem -f mds-token.json -w $SEALED_SECRET_DR/mds-token-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
+kubeseal --cert mycert.pem -f mds-token.json -w $SEALED_SECRET_DR/mds-token-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
 
 # Kafka RBAC credential
-kubeseal --cert mycert.pem -f mds-client.json -w $SEALED_SECRET_DR/mds-client-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
+kubeseal --cert mycert.pem -f mds-client.json -w $SEALED_SECRET_DR/mds-client-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
 
 # Control Center RBAC credential
-kubeseal --cert mycert.pem -f c3-mds-client.json -w $SEALED_SECRET_DR/c3-mds-client-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
+kubeseal --cert mycert.pem -f c3-mds-client.json -w $SEALED_SECRET_DR/c3-mds-client-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
 
 # Connect RBAC credential
-kubeseal --cert mycert.pem -f connect-mds-client.json -w $SEALED_SECRET_DR/connect-mds-client-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
+kubeseal --cert mycert.pem -f connect-mds-client.json -w $SEALED_SECRET_DR/connect-mds-client-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
 
 # Schema Registry RBAC credential
-kubeseal --cert mycert.pem -f sr-mds-client.json -w $SEALED_SECRET_DR/sr-mds-client-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
+kubeseal --cert mycert.pem -f sr-mds-client.json -w $SEALED_SECRET_DR/sr-mds-client-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
 
 # ksqlDB RBAC credential
-kubeseal --cert mycert.pem -f ksqldb-mds-client.json -w $SEALED_SECRET_DR/ksqldb-mds-client-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
+kubeseal --cert mycert.pem -f ksqldb-mds-client.json -w $SEALED_SECRET_DR/ksqldb-mds-client-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
 
 # Kafka REST credential
-kubeseal --cert mycert.pem -f rest-credential.json -w $SEALED_SECRET_DR/rest-credential-sealed.json --controller-name sealed-secrets --controller-namespace kube-system
+kubeseal --cert mycert.pem -f rest-credential.json -w $SEALED_SECRET_DR/rest-credential-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
 ```
 
 
@@ -256,7 +257,7 @@ Create a new ArgoCD application using the UI
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cfk
+  name: cfk-dr
   annotations:
   argocd.argoproj.io/sync-wave: "3"
 spec:
@@ -267,9 +268,9 @@ spec:
   source:
     path: overlays/dr
     repoURL: 'https://github.com/sotojuan2/cfk-gitops'
-    targetRevision: HEAD
+    targetRevision: dr
   sources: []
-  project: default
+  project: dr
   syncPolicy:
     automated:
       prune: true

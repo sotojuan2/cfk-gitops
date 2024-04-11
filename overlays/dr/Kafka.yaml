@@ -14,6 +14,9 @@
 - op: replace
   path: /spec/services/mds/provider/ldap/address
   value: ldap://ldap.confluent-dr.svc.cluster.local:389
+- op: replace
+  path: /metadata/name
+  value: dr-kafka
 - op: add
   path: /spec/configOverrides
   value:

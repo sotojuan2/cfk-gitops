@@ -33,3 +33,6 @@
     - confluent.monitoring.interceptor.topic.replication=1
     - confluent.metrics.topic.partitions=1
     - confluent.metrics.topic.replication=1
+- op: replace
+  path: /metadata/name
+  value: dr-controlcenter

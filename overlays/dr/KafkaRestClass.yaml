@@ -1,4 +1,3 @@
 - op: replace
   path: /spec/kafkaRest/authentication/type
   value: bearer
-
