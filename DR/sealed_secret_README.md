@@ -27,7 +27,7 @@ Log in to the LDAP pod:
 kubectl --namespace confluent-dr exec -it ldap-0 -- bash
 
 # Run the LDAP search command
-ldapsearch -LLL -x -H ldap://ldap.confluent-dr.svc.cluster.local:389 -b 'dc=test,dc=com' -D "cn=mds,dc=test,dc=com" -w 'dreloper!'
+ldapsearch -LLL -x -H ldap://ldap.confluent-dr.svc.cluster.local:389 -b 'dc=test,dc=com' -D "cn=mds,dc=test,dc=com" -w 'Developer!'
 
 # Exit out of the LDAP pod
 exit
@@ -56,7 +56,7 @@ This scenario workflow requires the following CLI tools to be available on the m
 Set the tutorial directory for this tutorial under the directory you downloaded the tutorial files:
 
 ```
-export TUTORIAL_HOME_DR=<Tutorial directory>/DR
+export TUTORIAL_HOME_DR=/Users/juansoto/Documents/GitHub/cfk-gitops/DR
 ```
 
 ## Create TLS certificates
