@@ -3,7 +3,7 @@
     "apiVersion": "v1",
     "metadata": {
         "name": "tls-kafka",
-        "namespace": "confluent-dev",
+        "namespace": "confluent-dr",
         "creationTimestamp": null
     },
     "data": {

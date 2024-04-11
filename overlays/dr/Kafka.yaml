@@ -1,0 +1,48 @@
+- op: replace
+  path: /spec/image/application
+  value: confluentinc/cp-server:7.5.1
+- op: replace
+  path: /spec/image/init
+  value: confluentinc/confluent-init-container:2.7.0
+- op: replace
+  path: /spec/replicas
+  value: 1
+- op: replace
+  path: /spec/dependencies/zookeeper/endpoint
+  value: zookeeper.confluent-dr.svc.cluster.local:2182
+# Can I use same ldap?
+- op: replace
+  path: /spec/services/mds/provider/ldap/address
+  value: ldap://ldap.confluent-dr.svc.cluster.local:389
+- op: add
+  path: /spec/configOverrides
+  value:
+    server:
+    - auto.create.topics.enable=false
+    - confluent.cluster.link.enable=true
+    - offsets.topic.replication.factor=1
+    - default.replication.factor=1
+    - confluent.license.topic.replication.factor=1
+    - confluent.tier.metadata.replication.factor=1
+    - confluent.balancer.topic.replication.factor=1
+    - confluent.security.event.logger.exporter.kafka.topic.replicas=1
+    - transaction.state.log.min.isr=1
+    - transaction.state.log.replication.factor=1
+    - confluent.metadata.topic.replication.factor=1
+- op: add
+  path: /spec/podTemplate
+  value:
+    probe:
+      liveness:
+        initialDelaySeconds: 6
+        failureThreshold: 9
+        periodSeconds: 30
+        timeoutSeconds: 5
+        successThreshold: 1
+      readiness:
+        initialDelaySeconds: 6
+        failureThreshold: 5
+        periodSeconds: 30
+        timeoutSeconds: 5
+        successThreshold: 1
+    terminationGracePeriodSeconds: 30

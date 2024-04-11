@@ -1,0 +1,40 @@
+commonLabels:
+  env: development
+namespace: confluent-dev
+patches:
+- path: zookeeper.yaml
+  target:
+    kind: Zookeeper
+- path: SchemaRegistry.yaml
+  target:
+    kind: SchemaRegistry
+- path: KsqlDB.yaml
+  target:
+    kind: KsqlDB
+- path: Kafka.yaml
+  target:
+    kind: Kafka
+- path: Connect.yaml
+  target:
+    kind: Connect
+- path: ControlCenter.yaml
+  target:
+    kind: ControlCenter
+- path: KafkaRestClass.yaml
+  target:
+    kind: KafkaRestClass
+resources:
+- ../../base
+- ./sealed-secrets/credential-sealed.json
+- ./sealed-secrets/ca-pair-sslcerts-sealed.json
+- ./sealed-secrets/tls-kafka-sealed.json
+- ./sealed-secrets/mds-token-sealed.json
+- ./sealed-secrets/mds-client-sealed.json
+- ./sealed-secrets/c3-mds-client-sealed.json
+- ./sealed-secrets/connect-mds-client-sealed.json
+- ./sealed-secrets/sr-mds-client-sealed.json
+- ./sealed-secrets/ksqldb-mds-client-sealed.json
+- ./sealed-secrets/rest-credential-sealed.json
+
+
+
