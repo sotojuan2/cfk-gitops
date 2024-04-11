@@ -1,4 +1,4 @@
-namespace: confluent-dev
+namespace: confluent-dr
 patches:
 - path: zookeeper.yaml
   target:
