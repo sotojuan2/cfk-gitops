@@ -1,3 +1,6 @@
 - op: replace
   path: /spec/kafkaRest/authentication/type
   value: bearer
+- op: replace
+  path: /metadata/name
+  value: dr-kafkarest
