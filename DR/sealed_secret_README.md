@@ -150,15 +150,15 @@ Provide the certificates to Kafka through a Kubernetes Sealed Secret:
 NECESARIO!!!!
 
 ```console
-kubectl create secret generic tls-kafka --dry-run=client \
+kubectl create secret generic tls-kafka-dr --dry-run=client \
   --from-file=fullchain.pem=$TUTORIAL_HOME/kafka-server.pem \
   --from-file=cacerts.pem=$TUTORIAL_HOME/externalCacerts.pem \
   --from-file=privkey.pem=$TUTORIAL_HOME/kafka-server-key.pem \
-  --namespace confluent-dr -o json >tls-kafka.json
+  --namespace confluent-dr -o json > $TUTORIAL_HOME_DR/tls-kafka-dr.json
 ```
 
 ```console
-kubeseal --cert mycert.pem -f tls-kafka.json -w $SEALED_SECRET_DR/tls-kafka-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
+kubeseal --cert mycert.pem -f $TUTORIAL_HOME_DR/tls-kafka-dr.json -w $SEALED_SECRET_DR/tls-kafka-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
 ```
 
 
@@ -171,17 +171,17 @@ This secret object contains file based properties. These files are in the
 format that each respective Confluent component requires for authentication
 credentials.
 
-NO NECESARIO NO CAMBIA EL NS
+
 ```console
-kubectl create secret generic credential --dry-run=client \
+kubectl create secret generic credential-dr --dry-run=client \
   --from-file=basic.txt=$TUTORIAL_HOME/creds-control-center-users.txt \
   --from-file=ldap.txt=$TUTORIAL_HOME/ldap.txt \
-  --namespace confluent-dr -o json >credential.json
+  --namespace confluent-dr -o json > $TUTORIAL_HOME_DR/credential-dr.json
 ```
 
 NECESARIO!!
 ```console
-kubeseal --cert mycert.pem -f credential.json -w $SEALED_SECRET_DR/credential-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
+kubeseal --cert mycert.pem -f $TUTORIAL_HOME_DR/credential-dr.json -w $SEALED_SECRET_DR/credential-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
 ```
 
 
@@ -190,60 +190,60 @@ kubeseal --cert mycert.pem -f credential.json -w $SEALED_SECRET_DR/credential-se
 
 Create a Kubernetes secret object for MDS:
 
-NO NECESARIO!!!
+
 ```console
-kubectl create secret generic mds-token --dry-run=client \
+kubectl create secret generic mds-token-dr --dry-run=client \
   --from-file=mdsPublicKey.pem=$TUTORIAL_HOME/assets/certs/mds-publickey.txt \
   --from-file=mdsTokenKeyPair.pem=$TUTORIAL_HOME/assets/certs/mds-tokenkeypair.txt \
-  --namespace confluent-dr -o json > mds-token.json
+  --namespace confluent-dr -o json > $TUTORIAL_HOME_DR/mds-token-dr.json
 
 # Kafka RBAC credential
-kubectl create secret generic mds-client --dry-run=client \
+kubectl create secret generic mds-client-dr --dry-run=client \
   --from-file=bearer.txt=$TUTORIAL_HOME/kafka-client.txt \
-  --namespace confluent-dr -o json > mds-client.json
+  --namespace confluent-dr -o json > $TUTORIAL_HOME_DR/mds-client-dr.json
 # Control Center RBAC credential
-kubectl create secret generic c3-mds-client --dry-run=client \
+kubectl create secret generic c3-mds-client-dr --dry-run=client \
   --from-file=bearer.txt=$TUTORIAL_HOME/c3-mds-client.txt \
-  --namespace confluent-dr -o json > c3-mds-client.json
+  --namespace confluent-dr -o json > $TUTORIAL_HOME_DR/c3-mds-client-dr.json
 # Connect RBAC credential
-kubectl create secret generic connect-mds-client --dry-run=client \
+kubectl create secret generic connect-mds-client-dr --dry-run=client \
   --from-file=bearer.txt=$TUTORIAL_HOME/connect-mds-client.txt \
-  --namespace confluent-dr -o json > connect-mds-client.json
+  --namespace confluent-dr -o json > $TUTORIAL_HOME_DR/connect-mds-client-dr.json
 # Schema Registry RBAC credential
-kubectl create secret generic sr-mds-client --dry-run=client \
+kubectl create secret generic sr-mds-client-dr --dry-run=client \
   --from-file=bearer.txt=$TUTORIAL_HOME/sr-mds-client.txt \
-  --namespace confluent-dr -o json > sr-mds-client.json
+  --namespace confluent-dr -o json > $TUTORIAL_HOME_DR/sr-mds-client-dr.json
 # ksqlDB RBAC credential
-kubectl create secret generic ksqldb-mds-client --dry-run=client \
+kubectl create secret generic ksqldb-mds-client-dr --dry-run=client \
   --from-file=bearer.txt=$TUTORIAL_HOME/ksqldb-mds-client.txt \
-  --namespace confluent-dr -o json >ksqldb-mds-client.json
+  --namespace confluent-dr -o json > $TUTORIAL_HOME_DR/ksqldb-mds-client-dr.json
 # Kafka REST credential
-kubectl create secret generic rest-credential --dry-run=client \
+kubectl create secret generic rest-credential-dr --dry-run=client \
   --from-file=bearer.txt=$TUTORIAL_HOME/kafka-client.txt \
   --from-file=basic.txt=$TUTORIAL_HOME/kafka-client.txt \
-  --namespace confluent-dr -o json >rest-credential.json
+  --namespace confluent-dr -o json >$TUTORIAL_HOME_DR/rest-credential-dr.json
 ```
 
 ```console
-kubeseal --cert mycert.pem -f mds-token.json -w $SEALED_SECRET_DR/mds-token-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
+kubeseal --cert mycert.pem -f $TUTORIAL_HOME_DR/mds-token-dr.json -w $SEALED_SECRET_DR/mds-token-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
 
 # Kafka RBAC credential
-kubeseal --cert mycert.pem -f mds-client.json -w $SEALED_SECRET_DR/mds-client-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
+kubeseal --cert mycert.pem -f $TUTORIAL_HOME_DR/mds-client-dr.json -w $SEALED_SECRET_DR/mds-client-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
 
 # Control Center RBAC credential
-kubeseal --cert mycert.pem -f c3-mds-client.json -w $SEALED_SECRET_DR/c3-mds-client-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
+kubeseal --cert mycert.pem -f $TUTORIAL_HOME_DR/c3-mds-client-dr.json -w $SEALED_SECRET_DR/c3-mds-client-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
 
 # Connect RBAC credential
-kubeseal --cert mycert.pem -f connect-mds-client.json -w $SEALED_SECRET_DR/connect-mds-client-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
+kubeseal --cert mycert.pem -f $TUTORIAL_HOME_DR/connect-mds-client-dr.json -w $SEALED_SECRET_DR/connect-mds-client-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
 
 # Schema Registry RBAC credential
-kubeseal --cert mycert.pem -f sr-mds-client.json -w $SEALED_SECRET_DR/sr-mds-client-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
+kubeseal --cert mycert.pem -f $TUTORIAL_HOME_DR/sr-mds-client-dr.json -w $SEALED_SECRET_DR/sr-mds-client-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
 
 # ksqlDB RBAC credential
-kubeseal --cert mycert.pem -f ksqldb-mds-client.json -w $SEALED_SECRET_DR/ksqldb-mds-client-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
+kubeseal --cert mycert.pem -f $TUTORIAL_HOME_DR/ksqldb-mds-client-dr.json -w $SEALED_SECRET_DR/ksqldb-mds-client-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
 
 # Kafka REST credential
-kubeseal --cert mycert.pem -f rest-credential.json -w $SEALED_SECRET_DR/rest-credential-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
+kubeseal --cert mycert.pem -f $TUTORIAL_HOME_DR/rest-credential-dr.json -w $SEALED_SECRET_DR/rest-credential-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
 ```
 
 

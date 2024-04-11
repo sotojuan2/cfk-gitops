@@ -2,8 +2,8 @@
     "kind": "Secret",
     "apiVersion": "v1",
     "metadata": {
-        "name": "tls-kafka",
-        "namespace": "confluent-dev",
+        "name": "tls-kafka-dr",
+        "namespace": "confluent-dr",
         "creationTimestamp": null
     },
     "data": {

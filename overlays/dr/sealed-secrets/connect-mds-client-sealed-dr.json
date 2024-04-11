@@ -2,20 +2,20 @@
   "kind": "SealedSecret",
   "apiVersion": "bitnami.com/v1alpha1",
   "metadata": {
-    "name": "connect-mds-client",
-    "namespace": "confluent-dev",
+    "name": "connect-mds-client-dr",
+    "namespace": "confluent-dr",
     "creationTimestamp": null
   },
   "spec": {
     "template": {
       "metadata": {
-        "name": "connect-mds-client",
-        "namespace": "confluent-dev",
+        "name": "connect-mds-client-dr",
+        "namespace": "confluent-dr",
         "creationTimestamp": null
       }
     },
     "encryptedData": {
-      "bearer.txt": "AgCwOO4J2sLGbcN2RJctPDkxyBekfwOiwTx3xX0K4QP0WIE91gJcWNtTPC0pTPJA92/IhVRXAz3LS7AG4HujJey8918ujOT2rJSPcUfmW8OfaK+tIhK0aiypLw0OYq2L8aGnfi5luaIjYEL8E0+XRXowzQfNW8B0jGkUB/PLg8MDgonbcz3sPFbvYDcx0xYIcI+U7+ETs7MkoNmqFX0HIRYYKLtyeWtniEj6y0OjkmQAWGYVPq0730yzl9E8/y/JtpYsRLlZs5M+2oqO2dF73wd7usiBGZCVNqYEDtI2FnniP9+/5PoCetnH/r1kLcWh5oMzkxNB2oRcTkP4I7PpkXvXAuA+bUDgkES7GikmSxCtkFNP6g19+rQ8a1yNrFpoS2BxnSrNEJ+PPmTUGQtbG/8AC6GQ1mNadZnHwrRJqeqNQQp52f0IsWXOGkeVdprM+uS6JNchR7H4HWDD8tKKI3tWS95c8h8T0O9pHOJ5YWjYbn2Q98wMbXWlmfasDBq5m1CqksVdUiUNvS7UUHiZ0JQQNaeURo5PRT6UekHrQusi4zi7g8R+0Y1gEbJZprw7OQvWKhV8qzCfOcANZ/JKbPZhC/K6N67e7PeSOek8QkUYG45PExmQuF9/svhGxZp2U8kSIf1kyp+GuLouvsAjclD7BbDMNEOHHdE9PoEr+Hs2efkFDPo2jmNjsVo68/j5wSbof7HcwbkqITt397Nv5xHFIQh+3vemL09raX+m3EGv+rqWiv0GBEhs1w=="
+      "bearer.txt": "AgCZ71JHR6cjzoBjaH+gnBnEd6MNOfh/oYGnYip2xBP3rtRlCKozpwRtnHcO/i5S3qF18f8DQ/8WTB5wy3aKcF0f2l7s67bJnuFrcQqrDwBUr61he33G3ekpkz9bdBgPEOQdBy07joeVfh5XkAXUODYRPGwJtgVUO02E9HpzWjYX9ol8rVIdEnSI1XztfB+GuVI3Nb18zQ6Wz1xv1wyqP3LpWlyjOgB73MvATd96lM6NA7Izvyu6jCeid5fdFLb2Z/+hQ9jaZhNRAvLhCzlriuqgVz6eCtzwHvezBtrZx6dK6qUxki3HJD4EunfOh1U8kelz1D//f/mgIksWGnz5YnBP1Oi6bcefFe1KsWWDvAWAK036EzjqbX8wGXrBT2nxWfTzk4bjsD9BMlR4YpHSscidyuRm9uac3WncuJqQD2ieUxPc1y3xQA78YK9S7ITbdqKMk3Nalw/VLr7Dx/4HblkpRTCfyC9VL+fB8jMdhA1K3PAxTA741nizKM2VnpFH1QNpbwekIt/3wTpCgol1aqQGPLIcXNrfqRSvt1IRY7MGoD6rbTxlIsP0g895lLecKEL2/Xc9W8PBM7O/Y10lAg16Sv4F9c0FT2lCJwkTjsRH9UvJfcIBhOy5RsRv8FBTNraVX+kwoPiYNmqoKsoe/lKNiG9w06yJ2xVfDe6tlk1jysQNzKaT72Ic/GUygrsqmuUZLa8T0Y4OeUjZ0HstS79h4Y/vnpNtImCrUv60Xqa/Oq+1ZoFGbng9+g=="
     }
   }
 }

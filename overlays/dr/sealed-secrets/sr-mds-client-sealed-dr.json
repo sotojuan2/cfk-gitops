@@ -2,20 +2,20 @@
   "kind": "SealedSecret",
   "apiVersion": "bitnami.com/v1alpha1",
   "metadata": {
-    "name": "sr-mds-client",
-    "namespace": "confluent-dev",
+    "name": "sr-mds-client-dr",
+    "namespace": "confluent-dr",
     "creationTimestamp": null
   },
   "spec": {
     "template": {
       "metadata": {
-        "name": "sr-mds-client",
-        "namespace": "confluent-dev",
+        "name": "sr-mds-client-dr",
+        "namespace": "confluent-dr",
         "creationTimestamp": null
       }
     },
     "encryptedData": {
-      "bearer.txt": "AgC2n4sgIjQeicBKspzm5PUtBuotzF70uT1sGNKoqGNBAjtLcdtF6BLTeqEFIWQyrrVwqmVYBnjVDivBeuY/+qvabT6JT6hbGSZ6G13jVMdtvFsDK/0wYZ2kjROVvoP23AVCKbHbIj0RAUNfIjWpS5OsOEjhaCNHK1hGAP+1zuFmKXxFGKKSStYct6ynNNnkI+677YXOT5rSD4w97JbMsZ91efFh3kKZN6qRlq5dB12/d51dQu0r0kwrnUNm1UiReU44AhpFZSWPpvFygSJRB3EzIIqN9R7b13637PIXAPuEYa7gYVI0XN0feWrUVITkaDVtPjXZnNnbilvThrEYlQyxsHsYlFqdObzWOkgHqHNeyqF8HbuJSZ5BhOI329V1Oti3RF1pLMWmP69Helk7Vmvb6aSoLeOUHJ+XPabT+SaaEA2KifyHhDJcO7P4n+4OfXtA4CKHPmIoHHadDGzzqlVK2MhlAAuzqpca24+uMHq7vouXCMLLb2X8kN0xfRzfQGE8lksNkoC7z0s15Xcxd57Yw9BIcL2q0cxRJuaYhEykbKzdpRX8qfveSJY6pxpICdzvcO/aqEP5jOJxqG/X3B4wTBxnGUtbbRLe/l1FU04xjq06paIWZxGWLDxRATz+Xxlw0+KHTtNqalIVkbdAJUFddVXYnaqv6lyqCe1O9jwZo0S7jmjypGl8JYxcu1NyDgAlbRf+CuKYDDaxnTUY0Zw1vw6DRVMDr/1wEvc3/AcN"
+      "bearer.txt": "AgCXkOwI+UON2bzEs+BpbH/WKQuMrxzu4h7QWshQsaMeuQ4OHqNDnxzkzzcfl9QFQe9JBHr7duDRFF+mS2o1QgwCAFoDWtO3n9iGHASIOlTGXpU320XN2wa8RLpQhUfSTpuOvPs4txdQNh9oOsPKyecNPqg333NWtH3Om6Ch/yFwNNsX06i9bHjo4y7vp3FEARVhz3ZOm2B0EORV/cnxQKNlcSh8GI8rNjunpQBZYbgEjGIi/g+AaV5RIPiiwNO7KtQ4riN1Zw7I2zsPK6PlKkbumjE4U/QRSLMlTBq9LzhCN5wiew0vOnsontDo3Gyj45Dwpczxs7GLJzB/8on6++7zw1J/TQC5JcaVmaBx9riL0uvnH+9GzzgyEFWJ/rFmCIT8mJCsCpUCYZLui5yh1aOt5KlENp/5Ij3IqNUEYr9/W019qiXwGzs3iasf7eccqYZGFcPO3i+BfAaLV2vify0HqEjqSyi9FxRzd3icq9zQQByEyniwW9+EXZ5VOsZBQhQo5e6SYKQmbMfTFY0OqT7F3Zm9qT/GQP7JMSO56T/hXRnyCK/h3px84TdCubWZTca+DhhlAv6VJb+3LPdOMKK4nOf9xYKQpZdBTULF7vomdmdfjF40IvaoTOQdMIRcAgn6wpfQ0rjCNwRubD62XoQY27Crj0ci0yKBtFEdLludfwfQOutOMN8DGaJA0Ie/6I03DnYeRKkroCxChcPewGVC46K+8NqUfUPM8Z+6FYYU"
     }
   }
 }

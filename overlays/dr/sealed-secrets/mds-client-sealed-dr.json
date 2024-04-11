@@ -2,20 +2,20 @@
   "kind": "SealedSecret",
   "apiVersion": "bitnami.com/v1alpha1",
   "metadata": {
-    "name": "mds-client",
-    "namespace": "confluent-dev",
+    "name": "mds-client-dr",
+    "namespace": "confluent-dr",
     "creationTimestamp": null
   },
   "spec": {
     "template": {
       "metadata": {
-        "name": "mds-client",
-        "namespace": "confluent-dev",
+        "name": "mds-client-dr",
+        "namespace": "confluent-dr",
         "creationTimestamp": null
       }
     },
     "encryptedData": {
-      "bearer.txt": "AgArdHXo0u/woLOw7Fn35fjiS30nCEJj4gvFORn9IMS+R4iGGQIoo4ZOePEGioR4Jx4K6aYEoHq/dTG/UIFxIH7NKVy5CgkbQrXutLnC0BIR0KvltHnPbTRFyYMW3Zh50hobOehKuZUbIXJv0bKXXDZDLW/t7sIClk5+bQ0Ti/HPqaIv1ZUx/JsQJA5lGAxUZk8aWTJ7CDojJGJa5XokcLf2YTJws6Su3MWsolH3rY5xF6+VeKHZj+Qef5h5hkKTVOkKqnG0Nr18AaBJlOfMA+6h9vbF0xjWFDF3vzcg8CCUnrIYVuPyFncyco9YmDm7NkaZR6MwJE4EVrrMd5h7VCWT0RpibFxD04ZHc3BxmYSfOCSi/Sw3L1RXKc1J1uEtzjOumyx3PFsen9QQ3OrrggU+cWz87ZqU0/Z4YoyBBinYqeDxPER/By9qMmSomcyTejaFIVetZiGXsGswP3DgQupylQFNM3hciIzEbsNJ/LnMNV0jEE0C/4CCxgZGTik7XcSCHACu0YzQJ6wuG3+2z2Nbssq4pzbRumWRIiCk1vK5VPtRKhLfUwplpt7EJ+QMS2eTj+2Xkw9S/D5GIZL9Bobw10Mvje9LiuAGAbyvKaOjHKM+vGfuKJhwGR5LdNBZUUrdvhHUST83ut9Ljp6nnI9u8568lrsHHME6z+kzD7omBWuCcYN02QhmQmaalSaDrqy6pR8TXFOM9DRKnkMF84exbOQo05TiQMhzuCTFgBJ0jbjAVhOL"
+      "bearer.txt": "AgBcZ8Vztijn14NgdfFb+EJguj/BuaSA54cHlOOBzCTljh1SZuh4y75hN/FyIBvLkKQMbH/0sB0VRKlg9ndi/t0eixns6ZbNuIw3f6WcDkvdBa8vbx1b58LVBeJSH0w+yy0cDGfp+TgAewr4a7PFSSlkWcYwXvDqDBG9w7tqWuE2ev4pEt6c3xXHBXRqH5tcEPKVB6O0f9zJ1yFGhwXO8m7fDnaDi3yWsKLN8kITc0/zOpIvDhR4E+qp4D0RgjczFqP6f8vOA0oh0Gg5EJiTynb6FWbDD5/+G/wj9o1eOFxXdpLnnHPS9IBEhg+5SCmJxiWpEwJU/DimCxyfwekD9Tf+8bl6j4rijtGEdVcBGAsdDFPRE89D0kKWc7vWlz/GKIw0Ja0eJb8EFiJG08Yza5NNT32XKk6PsdJP8RhpSMfw0AJRWjXimsFP81+FYMZ79j2lPl8wLqL+ZXsc1tK/my4Uta62FIbPb4P2N9+WxzDdEzVCS0fPXHZTiGGJjeJaEDAs0qI+zMuicy3/lUm6NBM5vxtP9FE2ngxIs4mC3HUAhCBUnYPz4YvEu7ek6QrSyz4beMOz72+k38KGWUlYT5LNPAmo9vLXd747XVUVqrOi7PkgJg2jI2oSlU1FJL+Bt6LDyunJRo7cPRhRnS1k2hMOthk2w73xp8w75YSeaKywICpownTgurQrHvgUAq8uZb7SSZGotQivEjEew6IiNun91G1lJMFyrAQs57q/jAlRvDv7lc5o"
     }
   }
 }
