@@ -111,14 +111,14 @@ SEALED_SECRET_DR=/Users/juansoto/Documents/Github/cfk-gitops/overlays/dr/sealed-
 Create a Kubernetes sealed secret for the certificate authority:
 
 ```console
-kubectl create secret tls ca-pair-sslcerts --dry-run=client \
+kubectl create secret tls ca-pair-sslcerts-dr --dry-run=client \
   --cert=$TUTORIAL_HOME/ca.pem \
-  --key=$TUTORIAL_HOME/ca-key.pem -n confluent-dr -o json > ca-pair-sslcerts.json
+  --key=$TUTORIAL_HOME/ca-key.pem -n confluent-dr -o json > $TUTORIAL_HOME_DR/ca-pair-sslcerts-dr.json
 ```
 NECESARIO!!
 
 ```console
-kubeseal --cert mycert.pem -f ca-pair-sslcerts.json -w $SEALED_SECRET_DR/ca-pair-sslcerts-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
+kubeseal --cert mycert.pem -f $TUTORIAL_HOME_DR/ca-pair-sslcerts.json -w $SEALED_SECRET_DR/ca-pair-sslcerts-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
 ```
 
 
