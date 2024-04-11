@@ -118,7 +118,7 @@ kubectl create secret tls ca-pair-sslcerts-dr --dry-run=client \
 NECESARIO!!
 
 ```console
-kubeseal --cert mycert.pem -f $TUTORIAL_HOME_DR/ca-pair-sslcerts.json -w $SEALED_SECRET_DR/ca-pair-sslcerts-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
+kubeseal --cert mycert.pem -f $TUTORIAL_HOME_DR/ca-pair-sslcerts-dr.json -w $SEALED_SECRET_DR/ca-pair-sslcerts-sealed-dr.json --controller-name sealed-secrets --controller-namespace kube-system
 ```
 
 
