@@ -23,3 +23,9 @@
 - op: replace
   path: /metadata/name
   value: dr-connect
+- op: replace
+  path: /spec/dependencies/mds/tokenKeyPair/secretRef
+  value: mds-token-dr
+- op: replace
+  path: /spec/dependencies/mds/authentication/bearer/secretRef
+  value: connect-mds-client-dr

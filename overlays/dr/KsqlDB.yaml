@@ -16,3 +16,9 @@
 - op: replace
   path: /metadata/name
   value: dr-ksqldb
+- op: replace
+  path: /spec/dependencies/mds/tokenKeyPair/secretRef
+  value: mds-token-dr
+- op: replace
+  path: /spec/dependencies/mds/authentication/bearer/secretRef
+  value: ksqldb-mds-client-dr

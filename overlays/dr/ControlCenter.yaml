@@ -36,3 +36,9 @@
 - op: replace
   path: /metadata/name
   value: dr-controlcenter
+- op: replace
+  path: /spec/dependencies/mds/authentication/bearer/secretRef
+  value: c3-mds-client-dr
+- op: replace
+  path: /spec/dependencies/mds/tokenKeyPair/secretRef
+  value: mds-token-dr

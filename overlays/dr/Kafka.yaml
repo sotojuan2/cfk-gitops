@@ -17,6 +17,18 @@
 - op: replace
   path: /metadata/name
   value: dr-kafka
+- op: replace
+  path: /spec/listeners/external/tls/secretRef
+  value: tls-kafka-dr
+- op: replace
+  path: /spec/services/mds/tokenKeyPair/secretRef
+  value: mds-token-dr
+- op: replace
+  path: /spec/services/mds/provider/ldap/authentication/simple/secretRef
+  value: credential-dr
+- op: replace
+  path: /spec/dependencies/kafkaRest/authentication/bearer/secretRef
+  value: mds-client-dr
 - op: add
   path: /spec/configOverrides
   value:
