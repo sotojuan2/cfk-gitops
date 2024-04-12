@@ -3,7 +3,7 @@
     "apiVersion": "v1",
     "metadata": {
         "name": "ca-pair-sslcerts",
-        "namespace": "confluent-dr",
+        "namespace": "confluent-dev",
         "creationTimestamp": null
     },
     "data": {
