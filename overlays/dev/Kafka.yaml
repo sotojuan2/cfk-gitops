@@ -11,7 +11,7 @@
   path: /spec/configOverrides
   value:
     server:
-    - auto.create.topics.enable=false
+    - auto.create.topics.enable=true
     - confluent.cluster.link.enable=true
     - offsets.topic.replication.factor=1
     - default.replication.factor=1
