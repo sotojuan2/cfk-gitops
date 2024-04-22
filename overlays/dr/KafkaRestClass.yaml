@@ -1,0 +1,9 @@
+- op: replace
+  path: /spec/kafkaRest/authentication/type
+  value: bearer
+- op: replace
+  path: /metadata/name
+  value: dr-kafkarest
+- op: replace
+  path: /spec/kafkaRest/authentication/bearer/secretRef
+  value: rest-credential-dr
