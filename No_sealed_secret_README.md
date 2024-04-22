@@ -315,6 +315,9 @@ spec:
     repoURL: 'https://packages.confluent.io/helm'
     targetRevision: 0.824.40
     chart: confluent-for-kubernetes
+    helm:
+      setValues:
+        namespaced: false
   sources: []
   project: default
   syncPolicy:

@@ -405,6 +405,7 @@ spec:
       selfHeal: true
     syncOptions:
     - ServerSideApply=true
+
 ```
 
 Or you can use the argocd cli
