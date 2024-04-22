@@ -1,0 +1,41 @@
+namespace: confluent-dr
+patches:
+- path: zookeeper.yaml
+  target:
+    kind: Zookeeper
+- path: SchemaRegistry.yaml
+  target:
+    kind: SchemaRegistry
+- path: KsqlDB.yaml
+  target:
+    kind: KsqlDB
+- path: Kafka.yaml
+  target:
+    kind: Kafka
+- path: Connect.yaml
+  target:
+    kind: Connect
+- path: ControlCenter.yaml
+  target:
+    kind: ControlCenter
+- path: KafkaRestClass.yaml
+  target:
+    kind: KafkaRestClass
+resources:
+- ../../base
+- ./sealed-secrets/credential-sealed-dr.json
+- ./sealed-secrets/ca-pair-sslcerts-sealed-dr.json
+- ./sealed-secrets/tls-kafka-sealed-dr.json
+- ./sealed-secrets/mds-token-sealed-dr.json
+- ./sealed-secrets/mds-client-sealed-dr.json
+- ./sealed-secrets/c3-mds-client-sealed-dr.json
+- ./sealed-secrets/connect-mds-client-sealed-dr.json
+- ./sealed-secrets/sr-mds-client-sealed-dr.json
+- ./sealed-secrets/ksqldb-mds-client-sealed-dr.json
+- ./sealed-secrets/rest-credential-sealed-dr.json
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+labels:
+- includeSelectors: true
+  pairs:
+    env: development
