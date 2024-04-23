@@ -9,10 +9,10 @@
   value: 1
 - op: replace
   path: /spec/dependencies/kafka/bootstrapEndpoint
-  value: kafka.confluent-dr.svc.cluster.local:9071
+  value: kafka-dr.confluent-dr.svc.cluster.local:9071
 - op: replace
   path: /spec/dependencies/mds/endpoint
-  value: https://kafka.confluent-dr.svc.cluster.local:8090  
+  value: https://kafka-dr.confluent-dr.svc.cluster.local:8090  
 - op: add
   path: /spec/configOverrides
   value:
@@ -22,7 +22,7 @@
     - status.storage.replication.factor=1
 - op: replace
   path: /metadata/name
-  value: dr-connect
+  value: connect-dr
 - op: replace
   path: /spec/dependencies/mds/tokenKeyPair/secretRef
   value: mds-token-dr
