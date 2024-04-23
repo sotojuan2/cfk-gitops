@@ -7,6 +7,9 @@
 - op: replace
   path: /spec/replicas
   value: 1
+- op: replace
+  path: /spec/services/mds/provider/ldap/address
+  value: ldap://ldap.confluent-dr.svc.cluster.local:389
 - op: add
   path: /spec/configOverrides
   value:
