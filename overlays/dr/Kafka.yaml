@@ -31,10 +31,10 @@
   value: mds-client-dr
 - op: replace
   path: /spec/listeners/external/externalAccess/loadBalancer/brokerPrefix
-  value: dr
+  value: a
 - op: replace
   path: /spec/listeners/external/externalAccess/loadBalancer/domain
-  value: dr-mydomain.com
+  value: mydomain.com
 - op: add
   path: /spec/configOverrides
   value:
