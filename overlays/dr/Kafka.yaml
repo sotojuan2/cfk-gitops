@@ -29,6 +29,9 @@
 - op: replace
   path: /spec/dependencies/kafkaRest/authentication/bearer/secretRef
   value: mds-client-dr
+- op: replace
+  path: /spec/listeners/external/externalAccess/loadBalancer/brokerPrefix
+  value: dr
 - op: add
   path: /spec/configOverrides
   value:
