@@ -9,7 +9,7 @@
   value: 1
 - op: replace
   path: /spec/dependencies/zookeeper/endpoint
-  value: dr-zookeeper.confluent-dr.svc.cluster.local:2182
+  value: zookeeper-dr.confluent-dr.svc.cluster.local:2182
 # Can I use same ldap?
 - op: replace
   path: /spec/services/mds/provider/ldap/address

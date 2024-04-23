@@ -9,4 +9,4 @@
   value: 1
 - op: replace
   path: /metadata/name
-  value: dr-zookeeper
+  value: zookeeper-dr
