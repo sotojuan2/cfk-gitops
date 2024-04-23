@@ -9,7 +9,7 @@
   value: 1
 - op: replace
   path: /spec/dependencies/kafka/bootstrapEndpoint
-  value: kafka.confluent-dr.svc.cluster.local:9071
+  value: kafka-dr.confluent-dr.svc.cluster.local:9071
 - op: replace
   path: /spec/dependencies/schemaRegistry/url
   value: https://schemaregistry.confluent-dr.svc.cluster.local:8081
@@ -35,7 +35,7 @@
     - confluent.metrics.topic.replication=1
 - op: replace
   path: /metadata/name
-  value: dr-controlcenter
+  value: controlcenter-dr
 - op: replace
   path: /spec/dependencies/mds/authentication/bearer/secretRef
   value: c3-mds-client-dr
