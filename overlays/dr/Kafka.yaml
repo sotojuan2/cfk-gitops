@@ -16,7 +16,7 @@
   value: ldap://ldap.confluent-dr.svc.cluster.local:389
 - op: replace
   path: /metadata/name
-  value: dr-kafka
+  value: drkafka
 - op: replace
   path: /spec/listeners/external/tls/secretRef
   value: tls-kafka-dr
