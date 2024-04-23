@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: operator
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  destination:
+    name: ''
+    namespace: confluent-dev
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: ''
+    repoURL: 'https://packages.confluent.io/helm'
+    targetRevision: 0.824.40
+    chart: confluent-for-kubernetes
+    helm:
+      parameters:
+        - name: "namespaced"
+          value: "false"
+  sources: []
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - ServerSideApply=true
