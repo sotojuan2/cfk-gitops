@@ -395,8 +395,9 @@ spec:
     targetRevision: 0.824.40
     chart: confluent-for-kubernetes
     helm:
-      setValues:
-        namespaced: false
+      parameters:
+        - name: "namespaced"
+          value: "false"
   sources: []
   project: default
   syncPolicy:
@@ -411,7 +412,7 @@ Or you can use the argocd cli
 
 ```shell
 argocd login localhost:8080
-argocd app create -f cfk-helm2.yaml
+argocd app create -f cfk_across_namespace.yaml
 ```
 
 At the end you will see the following in argocd UI
