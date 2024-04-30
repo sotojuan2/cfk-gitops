@@ -268,9 +268,9 @@ spec:
   source:
     path: overlays/dr
     repoURL: 'https://github.com/sotojuan2/cfk-gitops'
-    targetRevision: dr
+    targetRevision: main
   sources: []
-  project: dr
+  project: default
   syncPolicy:
     automated:
       prune: true
