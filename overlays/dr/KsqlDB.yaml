@@ -6,10 +6,10 @@
   value: confluentinc/confluent-init-container:2.7.0
 - op: replace
   path: /spec/dependencies/kafka/bootstrapEndpoint
-  value: kafka.confluent-dr.svc.cluster.local:9071
+  value: kafka-dr.confluent-dr.svc.cluster.local:9071
 - op: replace
   path: /spec/dependencies/mds/endpoint
-  value: https://kafka.confluent-dr.svc.cluster.local:8090
+  value: https://kafka-dr.confluent-dr.svc.cluster.local:8090
 - op: replace
   path: /spec/replicas
   value: 1
