@@ -9,7 +9,7 @@
   value: 1
 - op: replace
   path: /spec/services/mds/provider/ldap/address
-  value: ldap://ldap.confluent-dr.svc.cluster.local:389
+  value: ldap://ldap.confluent-dev.svc.cluster.local:389
 - op: add
   path: /spec/configOverrides
   value:
