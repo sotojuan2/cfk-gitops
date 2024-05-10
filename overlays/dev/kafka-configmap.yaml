@@ -11,7 +11,7 @@ data:
             - name: kafka
               startupProbe:
                 tcpSocket:
-                  port: 9079
+                  port: 9071
                 failureThreshold: 180
                 periodSeconds: 10
                 successThreshold: 1
