@@ -35,6 +35,7 @@ resources:
 - ./sealed-secrets/sr-mds-client-sealed.json
 - ./sealed-secrets/ksqldb-mds-client-sealed.json
 - ./sealed-secrets/rest-credential-sealed.json
+- ./kafka-configmap.yaml
 
 
 

@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kafka-pod-template-overlay
+data:
+  pod-template.yaml: |
+    spec:
+      template:
+        spec:
+          containers:
+            - name: kafka
+              startupProbe:
+                tcpSocket:
+                  port: 9071
+                failureThreshold: 180
+                periodSeconds: 10
+                successThreshold: 1
+                timeoutSeconds: 10

@@ -10,6 +10,11 @@
 - op: replace
   path: /spec/services/mds/provider/ldap/address
   value: ldap://ldap.confluent-dev.svc.cluster.local:389
+# add this annotation to the pod  platform.confluent.io/pod-overlay-configmap-name: kafka-pod-template-overlay
+- op: add
+  path: /metadata/annotations
+  value:
+    platform.confluent.io/pod-overlay-configmap-name: kafka-pod-template-overlay
 - op: add
   path: /spec/configOverrides
   value:
