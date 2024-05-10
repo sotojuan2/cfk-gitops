@@ -37,13 +37,13 @@
       liveness:
         initialDelaySeconds: 6
         failureThreshold: 9
-        periodSeconds: 30
+        periodSeconds: 10
         timeoutSeconds: 5
         successThreshold: 1
       readiness:
         initialDelaySeconds: 6
         failureThreshold: 5
-        periodSeconds: 30
+        periodSeconds: 10
         timeoutSeconds: 5
         successThreshold: 1
     terminationGracePeriodSeconds: 30
