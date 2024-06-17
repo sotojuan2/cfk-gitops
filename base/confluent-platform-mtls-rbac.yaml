@@ -23,7 +23,7 @@ metadata:
 spec:
   replicas: 3
   image:
-    application: confluentinc/cp-server:7.5.0
+    application: confluentinc/cp-server:7.5.1
     init: confluentinc/confluent-init-container:2.7.0
   dataVolumeCapacity: 10Gi
   tls:
