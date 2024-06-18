@@ -1,7 +1,4 @@
 - op: replace
-  path: /spec/image/application
-  value: confluentinc/cp-server:7.5.0
-- op: replace
   path: /spec/image/init
   value: confluentinc/confluent-init-container:2.7.0
 - op: replace
