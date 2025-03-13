@@ -3,7 +3,7 @@
   value: confluentinc/confluent-init-container:2.7.0
 - op: replace
   path: /spec/image/application
-  value: confluentinc/cp-server:7.5.6
+  value: confluentinc/cp-server:7.5.1
 - op: replace
   path: /spec/replicas
   value: 1
