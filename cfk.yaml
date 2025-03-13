@@ -12,7 +12,7 @@ spec:
   source:
     path: overlays/dev
     repoURL: 'https://github.com/sotojuan2/cfk-gitops'
-    targetRevision: confluent-dev
+    targetRevision: HEAD
   sources: []
   project: default
   syncPolicy:
