@@ -3,10 +3,10 @@
   value: confluentinc/confluent-init-container:2.7.0
 - op: replace
   path: /spec/image/application
-  value: confluentinc/cp-server:7.5.6
+  value: confluentinc/cp-server:7.5.1
 - op: replace
   path: /spec/replicas
-  value: 2
+  value: 3
 - op: replace
   path: /spec/services/mds/provider/ldap/address
   value: ldap://ldap.confluent-dev.svc.cluster.local:389

@@ -121,7 +121,7 @@ Replace <namespace> with the namespace where Sealed Secrets was installed (defau
 To encrypt secrets using Sealed Secrets, you'll need to fetch the public key of the Sealed Secrets controller. Run the following command:
 
 ```console
-kubeseal --fetch-cert --controller-name sealed-secrets-controller --controller-namespace kube-system > mycert.pem
+kubeseal --fetch-cert --controller-name sealed-secrets --controller-namespace kube-system > mycert.pem
 ```
 
 This command fetches the public key of the Sealed Secrets controller and saves it to a file named mycert.pem.
@@ -188,7 +188,7 @@ This scenario workflow requires the following CLI tools to be available on the m
 Set the tutorial directory for this tutorial under the directory you downloaded the tutorial files:
 
 ```
-export TUTORIAL_HOME=<Tutorial directory>/security/internal_external-tls_mtls_confluent-rbac
+export TUTORIAL_HOME=$pwd
 ```
 
 ## Create TLS certificates
@@ -235,7 +235,7 @@ openssl req -new -key $TUTORIAL_HOME/ca-key.pem -x509 \
 Set environment varible for the sealed secret environment
 
 ```console
-SEALED_SECRET=/Users/juansoto/Documents/Github/cfk-gitops/overlays/dev/sealed-secrets
+export SEALED_SECRET2=$PWD/overlays/dev/sealed-secrets
 ```
 
 
