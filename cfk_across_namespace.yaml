@@ -12,7 +12,7 @@ spec:
   source:
     path: ''
     repoURL: 'https://packages.confluent.io/helm'
-    targetRevision: 0.824.40
+    targetRevision: 0.1193.1
     chart: confluent-for-kubernetes
     helm:
       parameters:

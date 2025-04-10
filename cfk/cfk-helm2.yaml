@@ -1,7 +1,7 @@
 project: default
 sources:
   - repoURL: 'https://packages.confluent.io/helm'
-    targetRevision: 0.824.40
+    targetRevision: 0.1193.1
     chart: confluent-for-kubernetes
     helm: 
       valueFiles:
@@ -36,11 +36,11 @@ spec:
   source:
     path: ''
     repoURL: 'https://packages.confluent.io/helm'
-    targetRevision: 0.824.40
+    targetRevision: 0.1193.1
     chart: confluent-for-kubernetes
   sources:
   - repoURL: 'https://packages.confluent.io/helm'
-    targetRevision: 0.824.40
+    targetRevision: 0.1193.1
     chart: confluent-for-kubernetes
     helm: 
       valueFiles:
@@ -77,7 +77,7 @@ spec:
 project: default
 sources:
   - repoURL: 'https://packages.confluent.io/helm'
-    targetRevision: 0.824.40
+    targetRevision: 0.1193.1
     chart: confluent-for-kubernetes
     helm:
       valueFiles:

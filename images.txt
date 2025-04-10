@@ -1,5 +1,5 @@
 docker.io/confluentinc/confluent-init-container:2.7.0
-docker.io/confluentinc/confluent-operator:0.824.40
+docker.io/confluentinc/confluent-operator:0.1193.1
 docker.io/confluentinc/cp-enterprise-control-center:7.5.1
 docker.io/confluentinc/cp-ksqldb-server:7.5.1
 docker.io/confluentinc/cp-schema-registry:7.5.1

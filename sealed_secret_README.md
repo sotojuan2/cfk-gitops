@@ -121,7 +121,7 @@ Replace <namespace> with the namespace where Sealed Secrets was installed (defau
 To encrypt secrets using Sealed Secrets, you'll need to fetch the public key of the Sealed Secrets controller. Run the following command:
 
 ```console
-kubeseal --fetch-cert --controller-name sealed-secrets --controller-namespace kube-system > mycert.pem
+kubeseal --fetch-cert --controller-name sealed-secrets-controller --controller-namespace kube-system > mycert.pem
 ```
 
 This command fetches the public key of the Sealed Secrets controller and saves it to a file named mycert.pem.
@@ -235,7 +235,7 @@ openssl req -new -key $TUTORIAL_HOME/ca-key.pem -x509 \
 Set environment varible for the sealed secret environment
 
 ```console
-export SEALED_SECRET2=$PWD/overlays/dev/sealed-secrets
+export SEALED_SECRET=$PWD/overlays/dev/sealed-secrets
 ```
 
 
@@ -392,7 +392,7 @@ spec:
   source:
     path: ''
     repoURL: 'https://packages.confluent.io/helm'
-    targetRevision: 0.824.40
+    targetRevision: 0.1193.1
     chart: confluent-for-kubernetes
     helm:
       parameters:
