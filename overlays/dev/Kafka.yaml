@@ -6,7 +6,7 @@
   value: confluentinc/cp-server:7.5.1
 - op: replace
   path: /spec/replicas
-  value: 3
+  value: 1
 - op: replace
   path: /spec/services/mds/provider/ldap/address
   value: ldap://ldap.confluent-dev.svc.cluster.local:389
